@@ -1,0 +1,139 @@
+\doxysection{Dokumentacja struktury Player}
+\hypertarget{struct_player}{}\label{struct_player}\index{Player@{Player}}
+
+
+Struktura przechowująca wszystkie informacje dotyczące gracza.  
+
+
+\doxysubsubsection*{Pola danych}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{struct_player_ad285b3cb25e4a46ca944b9a416c1b13f}{x}}
+\item 
+int \mbox{\hyperlink{struct_player_a6da29d6e3783c6028c92647bbde478f5}{y}}
+\begin{DoxyCompactList}\small\item\em Pozycja gracza na mapie (współrzędne kafelków). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_player_ab3300fa23175647f3ff50311dd2a7e04}{lives}}
+\begin{DoxyCompactList}\small\item\em Aktualna liczba żyć gracza. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_player_ace6abae8d66534ad0a1fd6458f786a6e}{score}}
+\begin{DoxyCompactList}\small\item\em Aktualny wynik punktowy gracza. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_player_a2ad8b519ac8138b031b8f49f1b04a06b}{is\+\_\+alive}}
+\begin{DoxyCompactList}\small\item\em Flaga wskazująca, czy gracz żyje. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_player_aaf8419f2a11f79492d1e9081b8913374}{invincible}}
+\begin{DoxyCompactList}\small\item\em Flaga wskazująca, czy gracz jest aktualnie nietykalny. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_player_acecfb0936ea8d0e5842f48aed819c0d9}{invincibility\+\_\+timer}}
+\begin{DoxyCompactList}\small\item\em Licznik pozostałego czasu nietykalności. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_player_adeaaef33a75341568e82aa5971145126}{current\+\_\+max\+\_\+bombs}}
+\begin{DoxyCompactList}\small\item\em Maksymalna liczba bomb, które gracz może jednocześnie podłożyć. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_player_a9dd974dd8a9505be70f14a7be31d5749}{current\+\_\+bomb\+\_\+radius}}
+\begin{DoxyCompactList}\small\item\em Aktualny promień rażenia bomb gracza. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05}{PLAYER\+\_\+\+DIRECTION}} \mbox{\hyperlink{struct_player_a9709b47b502cde49bbb512c2c0d39b89}{direction}}
+\begin{DoxyCompactList}\small\item\em Kierunek, w którym gracz jest obecnie zwrócony. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Opis szczegółowy}
+Struktura przechowująca wszystkie informacje dotyczące gracza. 
+
+\label{doc-variable-members}
+\Hypertarget{struct_player_doc-variable-members}
+\doxysubsection{Dokumentacja pól}
+\Hypertarget{struct_player_a9dd974dd8a9505be70f14a7be31d5749}\index{Player@{Player}!current\_bomb\_radius@{current\_bomb\_radius}}
+\index{current\_bomb\_radius@{current\_bomb\_radius}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{current\_bomb\_radius}{current\_bomb\_radius}}
+{\footnotesize\ttfamily \label{struct_player_a9dd974dd8a9505be70f14a7be31d5749} 
+int Player\+::current\+\_\+bomb\+\_\+radius}
+
+
+
+Aktualny promień rażenia bomb gracza. 
+
+\Hypertarget{struct_player_adeaaef33a75341568e82aa5971145126}\index{Player@{Player}!current\_max\_bombs@{current\_max\_bombs}}
+\index{current\_max\_bombs@{current\_max\_bombs}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{current\_max\_bombs}{current\_max\_bombs}}
+{\footnotesize\ttfamily \label{struct_player_adeaaef33a75341568e82aa5971145126} 
+int Player\+::current\+\_\+max\+\_\+bombs}
+
+
+
+Maksymalna liczba bomb, które gracz może jednocześnie podłożyć. 
+
+\Hypertarget{struct_player_a9709b47b502cde49bbb512c2c0d39b89}\index{Player@{Player}!direction@{direction}}
+\index{direction@{direction}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{direction}{direction}}
+{\footnotesize\ttfamily \label{struct_player_a9709b47b502cde49bbb512c2c0d39b89} 
+\mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05}{PLAYER\+\_\+\+DIRECTION}} Player\+::direction}
+
+
+
+Kierunek, w którym gracz jest obecnie zwrócony. 
+
+\Hypertarget{struct_player_acecfb0936ea8d0e5842f48aed819c0d9}\index{Player@{Player}!invincibility\_timer@{invincibility\_timer}}
+\index{invincibility\_timer@{invincibility\_timer}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{invincibility\_timer}{invincibility\_timer}}
+{\footnotesize\ttfamily \label{struct_player_acecfb0936ea8d0e5842f48aed819c0d9} 
+int Player\+::invincibility\+\_\+timer}
+
+
+
+Licznik pozostałego czasu nietykalności. 
+
+\Hypertarget{struct_player_aaf8419f2a11f79492d1e9081b8913374}\index{Player@{Player}!invincible@{invincible}}
+\index{invincible@{invincible}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{invincible}{invincible}}
+{\footnotesize\ttfamily \label{struct_player_aaf8419f2a11f79492d1e9081b8913374} 
+bool Player\+::invincible}
+
+
+
+Flaga wskazująca, czy gracz jest aktualnie nietykalny. 
+
+\Hypertarget{struct_player_a2ad8b519ac8138b031b8f49f1b04a06b}\index{Player@{Player}!is\_alive@{is\_alive}}
+\index{is\_alive@{is\_alive}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{is\_alive}{is\_alive}}
+{\footnotesize\ttfamily \label{struct_player_a2ad8b519ac8138b031b8f49f1b04a06b} 
+bool Player\+::is\+\_\+alive}
+
+
+
+Flaga wskazująca, czy gracz żyje. 
+
+\Hypertarget{struct_player_ab3300fa23175647f3ff50311dd2a7e04}\index{Player@{Player}!lives@{lives}}
+\index{lives@{lives}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{lives}{lives}}
+{\footnotesize\ttfamily \label{struct_player_ab3300fa23175647f3ff50311dd2a7e04} 
+int Player\+::lives}
+
+
+
+Aktualna liczba żyć gracza. 
+
+\Hypertarget{struct_player_ace6abae8d66534ad0a1fd6458f786a6e}\index{Player@{Player}!score@{score}}
+\index{score@{score}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily \label{struct_player_ace6abae8d66534ad0a1fd6458f786a6e} 
+int Player\+::score}
+
+
+
+Aktualny wynik punktowy gracza. 
+
+\Hypertarget{struct_player_ad285b3cb25e4a46ca944b9a416c1b13f}\index{Player@{Player}!x@{x}}
+\index{x@{x}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \label{struct_player_ad285b3cb25e4a46ca944b9a416c1b13f} 
+int Player\+::x}
+
+\Hypertarget{struct_player_a6da29d6e3783c6028c92647bbde478f5}\index{Player@{Player}!y@{y}}
+\index{y@{y}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily \label{struct_player_a6da29d6e3783c6028c92647bbde478f5} 
+int Player\+::y}
+
+
+
+Pozycja gracza na mapie (współrzędne kafelków). 
+
+
+
+Dokumentacja dla tej struktury została wygenerowana z pliku\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8c}{main.\+c}}\end{DoxyCompactItemize}

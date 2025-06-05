@@ -1,0 +1,1065 @@
+\doxysection{Dokumentacja pliku main.\+c}
+\hypertarget{main_8c}{}\label{main_8c}\index{main.c@{main.c}}
+
+
+Prosta implementacja gry Bomberman przy użyciu biblioteki Allegro 5.  
+
+
+{\ttfamily \#include $<$allegro5/allegro.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+primitives.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+image.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+font.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+ttf.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+audio.\+h$>$}\newline
+{\ttfamily \#include $<$allegro5/allegro\+\_\+acodec.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+\doxysubsubsection*{Struktury danych}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_player}{Player}}
+\begin{DoxyCompactList}\small\item\em Struktura przechowująca wszystkie informacje dotyczące gracza. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_enemy}{Enemy}}
+\begin{DoxyCompactList}\small\item\em Struktura przechowująca informacje o pojedynczym wrogu. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_powerup}{Powerup}}
+\begin{DoxyCompactList}\small\item\em Struktura przechowująca informacje o pojedynczym power-\/upie. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_bomb}{Bomb}}
+\begin{DoxyCompactList}\small\item\em Struktura przechowująca informacje o pojedynczej bombie. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_destructible_wall_coord}{Destructible\+Wall\+Coord}}
+\begin{DoxyCompactList}\small\item\em Struktura pomocnicza do przechowywania współrzędnych zniszczalnych ścian. Używana podczas losowego umieszczania ukrytego wyjścia. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Definicje}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}~15
+\item 
+\#define \mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}~13
+\item 
+\#define \mbox{\hyperlink{main_8c_a62ecd70800687eb2d625af180c4210d7}{TILE\+\_\+\+SIZE}}~32
+\item 
+\#define \mbox{\hyperlink{main_8c_a95793714d3abbdf0175f42c34590c9f4}{HUD\+\_\+\+HEIGHT}}~(\mbox{\hyperlink{main_8c_a62ecd70800687eb2d625af180c4210d7}{TILE\+\_\+\+SIZE}} \texorpdfstring{$\ast$}{*} 2)
+\item 
+\#define \mbox{\hyperlink{main_8c_a4515ae79265da8c38a8514e970b996c2}{PLAYER\+\_\+\+MAX\+\_\+\+LIVES}}~3
+\item 
+\#define \mbox{\hyperlink{main_8c_abe5428883c7d18a4f1d24d03a6b1f4b9}{INVINCIBILITY\+\_\+\+DURATION}}~120
+\item 
+\#define \mbox{\hyperlink{main_8c_a544651f3405cff79c40d898a8e54f507}{MAX\+\_\+\+ENEMIES}}~5
+\item 
+\#define \mbox{\hyperlink{main_8c_a21b68313576e8c163c52a7bfe279dd7b}{ENEMY\+\_\+\+MOVE\+\_\+\+DELAY}}~30
+\item 
+\#define \mbox{\hyperlink{main_8c_a2d1c8fd6238c810d40c207d53b252bdb}{POINTS\+\_\+\+PER\+\_\+\+ENEMY}}~100
+\item 
+\#define \mbox{\hyperlink{main_8c_a21ef4bc744f7b5c867145c23bfa7831f}{POINTS\+\_\+\+PER\+\_\+\+WALL}}~10
+\item 
+\#define \mbox{\hyperlink{main_8c_a5b4072f66deed0b4ee1f710541cd75b5}{MAX\+\_\+\+POWERUPS}}~(\mbox{\hyperlink{main_8c_a544651f3405cff79c40d898a8e54f507}{MAX\+\_\+\+ENEMIES}})
+\item 
+\#define \mbox{\hyperlink{main_8c_aaef3fa43246a96e4c8b993073166dc29}{POWERUP\+\_\+\+DROP\+\_\+\+CHANCE}}~3
+\item 
+\#define \mbox{\hyperlink{main_8c_ad3e1766beee573ff7fd0798c4db63217}{MAX\+\_\+\+BOMBS}}~5
+\item 
+\#define \mbox{\hyperlink{main_8c_aedfb1ad430a057b1a0021f1b1d865029}{EXPLOSION\+\_\+\+DURATION}}~30
+\item 
+\#define \mbox{\hyperlink{main_8c_a23166ed7c1baea0fae1efccdf0d3c5c0}{BOMB\+\_\+\+TIMER\+\_\+\+DURATION}}~120
+\item 
+\#define \mbox{\hyperlink{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}{MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS}}~(1 + 4 \texorpdfstring{$\ast$}{*} 7)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Wyliczenia}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05}{PLAYER\+\_\+\+DIRECTION}} \{ \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40}{PLAYER\+\_\+\+DIR\+\_\+\+DOWN}}
+, \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7}{PLAYER\+\_\+\+DIR\+\_\+\+UP}}
+, \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec}{PLAYER\+\_\+\+DIR\+\_\+\+LEFT}}
+, \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45}{PLAYER\+\_\+\+DIR\+\_\+\+RIGHT}}
+ \}
+\begin{DoxyCompactList}\small\item\em Kierunki, w które może być zwrócony gracz. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \{ \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d}{START\+\_\+\+SCREEN}}
+, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8}{PLAYING}}
+, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00}{GAME\+\_\+\+OVER}}
+ \}
+\begin{DoxyCompactList}\small\item\em Możliwe stany, w jakich może znajdować się gra. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{main_8c_a9ab18d581d866bc511f37af5dee04390}{TILE\+\_\+\+TYPE}} \{ \mbox{\hyperlink{main_8c_a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d}{EMPTY}}
+, \mbox{\hyperlink{main_8c_a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d}{SOLID\+\_\+\+WALL}}
+, \mbox{\hyperlink{main_8c_a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0}{DESTRUCTIBLE\+\_\+\+WALL}}
+ \}
+\begin{DoxyCompactList}\small\item\em Typy kafelków, z których może składać się mapa gry. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0}{ENEMY\+\_\+\+DIRECTION}} \{ \newline
+\mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b}{DIR\+\_\+\+UP}}
+, \mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d}{DIR\+\_\+\+DOWN}}
+, \mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660}{DIR\+\_\+\+LEFT}}
+, \mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8}{DIR\+\_\+\+RIGHT}}
+, \newline
+\mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8}{DIR\+\_\+\+COUNT}}
+ \}
+\begin{DoxyCompactList}\small\item\em Kierunki, w których mogą poruszać się wrogowie. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13}{POWERUP\+\_\+\+TYPE}} \{ \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5}{POWERUP\+\_\+\+BOMB\+\_\+\+CAP}}
+, \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f}{POWERUP\+\_\+\+RADIUS\+\_\+\+INC}}
+, \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2}{POWERUP\+\_\+\+EXTRA\+\_\+\+LIFE}}
+, \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60}{POWERUP\+\_\+\+TYPE\+\_\+\+COUNT}}
+ \}
+\begin{DoxyCompactList}\small\item\em Typy dostępnych power-\/upów w grze. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Funkcje}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8c_a91d5a2bf0c9f75e02e916d0287815c33}{initialize\+\_\+map}} ()
+\begin{DoxyCompactList}\small\item\em Inicjalizuje mapę gry, rozmieszczając na niej ściany (stałe i zniszczalne) oraz puste pola. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_aff1eaabee8697909f7a7a3cb9dd95246}{hide\+\_\+exit\+\_\+randomly}} ()
+\begin{DoxyCompactList}\small\item\em Ukrywa wyjście pod losowo wybraną zniszczalną ścianą na mapie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_af5e9609965bc94fe5f69def369209bce}{initialize\+\_\+enemies}} (int map\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p\+\_\+player)
+\begin{DoxyCompactList}\small\item\em Inicjalizuje wrogów, rozmieszczając ich na mapie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_aa9225ab68675de8fe558808791583f7a}{find\+\_\+and\+\_\+set\+\_\+player\+\_\+spawn}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p\+\_\+player, int map\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]})
+\begin{DoxyCompactList}\small\item\em Znajduje i ustawia bezpieczne miejsce startowe dla gracza na mapie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_aa0f25a123bcba60521f5cecfce23c376}{try\+\_\+plant\+\_\+bomb}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Umożliwia graczowi podłożenie bomby. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_acdd063f38723e2045c2fa04b6dae2cff}{setup\+\_\+new\+\_\+game}} ()
+\begin{DoxyCompactList}\small\item\em Przygotowuje nową grę, resetując stan wszystkich elementów gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a121aa867bb7f163c7f28a4556fc4f812}{obsluz\+\_\+wejscie}} (ALLEGRO\+\_\+\+EVENT event, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}current\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Obsługuje wejście z klawiatury. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a76dbfe0dc68c2489cf13781f7f5aedfb}{aktualizuj\+\_\+gre}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_bomb}{Bomb}} bombs\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_powerup}{Powerup}} powerups\+\_\+arr\mbox{[}$\,$\mbox{]}, int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}current\+\_\+s, bool \texorpdfstring{$\ast$}{*}exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Główna funkcja aktualizująca logikę gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a5a84b03db753f982d45756c0c7879abe}{aktualizuj\+\_\+nietykalnosc\+\_\+gracza}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Aktualizuje stan nietykalności gracza. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a9d5d7eb28b055ff07979b47b9b5de9da}{aktualizuj\+\_\+bomby}} (\mbox{\hyperlink{struct_bomb}{Bomb}} bombs\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_powerup}{Powerup}} powerups\+\_\+arr\mbox{[}$\,$\mbox{]}, int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}current\+\_\+s, bool \texorpdfstring{$\ast$}{*}exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Aktualizuje stan wszystkich bomb na mapie oraz obsługuje ich eksplozje. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a3ed175053d30adb7da08e18961e14a47}{aktualizuj\+\_\+wrogow}} (\mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_bomb}{Bomb}} bombs\+\_\+arr\mbox{[}$\,$\mbox{]}, int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}, bool exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Aktualizuje stan wrogów, zarządzając ich ruchem i zmianą kierunku. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_affc522e82b4092296d58313cfab975ba}{sprawdz\+\_\+kolizje\+\_\+gracz\+\_\+wrog}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}current\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Sprawdza kolizję gracza z wrogami. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a1f05ed4e4438dfe8771cf59d0a0dcbaa}{sprawdz\+\_\+warunek\+\_\+wygranej}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, bool exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}current\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Sprawdza, czy warunki zwycięstwa zostały spełnione. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a5d4980fa75e17f879dd65ef8f5b74b0e}{rysuj\+\_\+gre}} (ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}display, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_bomb}{Bomb}} bombs\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_powerup}{Powerup}} powerups\+\_\+arr\mbox{[}$\,$\mbox{]}, int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}, \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} current\+\_\+s, bool exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Główna funkcja rysująca całą grę. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_aead85648d16662c0efca195838610096}{rysuj\+\_\+ekran\+\_\+startowy}} (ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}display)
+\begin{DoxyCompactList}\small\item\em Rysuje ekran startowy gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a58ebde6af1ce6a5f832ae0745e03818e}{rysuj\+\_\+ekran\+\_\+konca\+\_\+gry}} (ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}display, \mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]}, bool exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Rysuje ekran końca gry (informację o wygranej lub przegranej oraz wynik). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ad428f5f46fc2decddda6b243a8106a00}{rysuj\+\_\+hud}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Rysuje interfejs użytkownika (HUD) na górze ekranu. Wyświetla informacje takie jak liczba żyć, wynik, liczba pozostałych wrogów, aktualna liczba bomb i moc eksplozji. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a7dbc863bccc52dde38d98ff0c7244e15}{rysuj\+\_\+mape}} (int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]})
+\begin{DoxyCompactList}\small\item\em Rysuje kafelki mapy gry (ściany, puste pola). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a337a5f906b05440f0bbd1f8df874579a}{rysuj\+\_\+wyjscie}} (bool exit\+\_\+rev, int ex\+\_\+x, int ex\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Rysuje wyjście z poziomu, jeśli zostało odkryte. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_abb09d9f855f15f6450c7e1e136d2a820}{rysuj\+\_\+powerupy}} (\mbox{\hyperlink{struct_powerup}{Powerup}} powerups\+\_\+arr\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Rysuje aktywne power-\/upy na mapie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ae317d334f119bdc136f7e0d0571240e5}{rysuj\+\_\+bomby\+\_\+i\+\_\+eksplozje}} (\mbox{\hyperlink{struct_bomb}{Bomb}} bombs\+\_\+arr\mbox{[}$\,$\mbox{]}, int game\+\_\+map\+\_\+arr\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]})
+\begin{DoxyCompactList}\small\item\em Rysuje bomby (tykające) oraz efekty ich eksplozji. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ad634ef8d16c277cf892ba3205a962659}{rysuj\+\_\+wrogow}} (\mbox{\hyperlink{struct_enemy}{Enemy}} enemies\+\_\+arr\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Rysuje wrogów na mapie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a769e627575de21d6a71fc0b9f46c71ed}{rysuj\+\_\+gracza}} (\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Rysuje gracza na mapie. Wybiera odpowiedni sprite w zależności od kierunku, w którym gracz jest zwrócony. Obsługuje również efekt migotania podczas nietykalności. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Główna funkcja programu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Zmienne}
+\begin{DoxyCompactItemize}
+\item 
+ALLEGRO\+\_\+\+FONT \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_ac1c96c751d869b6c919670f886f734ee}{font\+\_\+main}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_adad312233360ca637ac12b1c51b458fb}{player\+\_\+sprite\+\_\+front}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a7a2551316b77fbea922b621405e21563}{player\+\_\+sprite\+\_\+back}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_ae65b23927f07edb586f48edb6d639f29}{player\+\_\+sprite\+\_\+left}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a4e6e5bbbddf81404025e55d69db6c5c2}{player\+\_\+sprite\+\_\+right}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_af2010767c286558776587c55ed927199}{destructible\+\_\+wall\+\_\+sprite}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a3f2f6dd26ced2afe27705bc4e1b05e60}{dynamite\+\_\+sprite}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a23578889e80423fa7a46c533149a39ab}{sparks\+\_\+sprite}} = NULL
+\item 
+ALLEGRO\+\_\+\+BITMAP \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a8b85cfb2032cf34fbcb4bee2842c3030}{exit\+\_\+sprite}} = NULL
+\item 
+ALLEGRO\+\_\+\+SAMPLE \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a701b3112b6950dfbb231e71ca126de1e}{background\+\_\+music\+\_\+sample}} = NULL
+\item 
+ALLEGRO\+\_\+\+SAMPLE\+\_\+\+INSTANCE \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_adf596cd6647aee4fffa4cb0d4cdff13e}{background\+\_\+music\+\_\+instance}} = NULL
+\item 
+\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \mbox{\hyperlink{main_8c_aacac1b826495bfab7f147becc245e071}{current\+\_\+game\+\_\+state}} = \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d}{START\+\_\+\+SCREEN}}
+\item 
+int \mbox{\hyperlink{main_8c_a5578442946f6e26c17e6f7e5f3b4cc63}{game\+\_\+map}} \mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}
+\item 
+int \mbox{\hyperlink{main_8c_ada4b633ecd8c11a9b0a9d91347f8ccff}{exit\+\_\+x}} = -\/1
+\item 
+int \mbox{\hyperlink{main_8c_af106871dd79d268d74ac02a47ccdf689}{exit\+\_\+y}} = -\/1
+\item 
+bool \mbox{\hyperlink{main_8c_a67afaaa24decd15326d0b5a7b4857db4}{exit\+\_\+revealed}} = false
+\item 
+\mbox{\hyperlink{struct_player}{Player}} \mbox{\hyperlink{main_8c_af61d6983a9396a11078805087518af88}{player}}
+\item 
+\mbox{\hyperlink{struct_enemy}{Enemy}} \mbox{\hyperlink{main_8c_aa77cdda066ee8dc7d7deca04003842b1}{enemies}} \mbox{[}\mbox{\hyperlink{main_8c_a544651f3405cff79c40d898a8e54f507}{MAX\+\_\+\+ENEMIES}}\mbox{]}
+\item 
+\mbox{\hyperlink{struct_powerup}{Powerup}} \mbox{\hyperlink{main_8c_a190946727866ecc9f54b406c2c7e91fd}{powerups}} \mbox{[}\mbox{\hyperlink{main_8c_a5b4072f66deed0b4ee1f710541cd75b5}{MAX\+\_\+\+POWERUPS}}\mbox{]}
+\item 
+\mbox{\hyperlink{struct_bomb}{Bomb}} \mbox{\hyperlink{main_8c_a84cb04e70d076742d55818063d81e1cb}{bombs}} \mbox{[}\mbox{\hyperlink{main_8c_ad3e1766beee573ff7fd0798c4db63217}{MAX\+\_\+\+BOMBS}}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Opis szczegółowy}
+Prosta implementacja gry Bomberman przy użyciu biblioteki Allegro 5. 
+
+
+\begin{DoxyItemize}
+\item Gra zawiera podstawowe mechaniki takie jak ruch gracza, podkładanie bomb, niszczenie ścian, zbieranie power-\/upów, walkę z wrogami oraz system punktacji. Celem gry jest pokonanie wszystkich wrogów i znalezienie ukrytego wyjścia. 
+\end{DoxyItemize}
+
+\label{doc-define-members}
+\Hypertarget{main_8c_doc-define-members}
+\doxysubsection{Dokumentacja definicji}
+\Hypertarget{main_8c_a23166ed7c1baea0fae1efccdf0d3c5c0}\index{main.c@{main.c}!BOMB\_TIMER\_DURATION@{BOMB\_TIMER\_DURATION}}
+\index{BOMB\_TIMER\_DURATION@{BOMB\_TIMER\_DURATION}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BOMB\_TIMER\_DURATION}{BOMB\_TIMER\_DURATION}}
+{\footnotesize\ttfamily \label{main_8c_a23166ed7c1baea0fae1efccdf0d3c5c0} 
+\#define BOMB\+\_\+\+TIMER\+\_\+\+DURATION~120}
+
+\Hypertarget{main_8c_a21b68313576e8c163c52a7bfe279dd7b}\index{main.c@{main.c}!ENEMY\_MOVE\_DELAY@{ENEMY\_MOVE\_DELAY}}
+\index{ENEMY\_MOVE\_DELAY@{ENEMY\_MOVE\_DELAY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{ENEMY\_MOVE\_DELAY}{ENEMY\_MOVE\_DELAY}}
+{\footnotesize\ttfamily \label{main_8c_a21b68313576e8c163c52a7bfe279dd7b} 
+\#define ENEMY\+\_\+\+MOVE\+\_\+\+DELAY~30}
+
+\Hypertarget{main_8c_aedfb1ad430a057b1a0021f1b1d865029}\index{main.c@{main.c}!EXPLOSION\_DURATION@{EXPLOSION\_DURATION}}
+\index{EXPLOSION\_DURATION@{EXPLOSION\_DURATION}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXPLOSION\_DURATION}{EXPLOSION\_DURATION}}
+{\footnotesize\ttfamily \label{main_8c_aedfb1ad430a057b1a0021f1b1d865029} 
+\#define EXPLOSION\+\_\+\+DURATION~30}
+
+\Hypertarget{main_8c_a95793714d3abbdf0175f42c34590c9f4}\index{main.c@{main.c}!HUD\_HEIGHT@{HUD\_HEIGHT}}
+\index{HUD\_HEIGHT@{HUD\_HEIGHT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HUD\_HEIGHT}{HUD\_HEIGHT}}
+{\footnotesize\ttfamily \label{main_8c_a95793714d3abbdf0175f42c34590c9f4} 
+\#define HUD\+\_\+\+HEIGHT~(\mbox{\hyperlink{main_8c_a62ecd70800687eb2d625af180c4210d7}{TILE\+\_\+\+SIZE}} \texorpdfstring{$\ast$}{*} 2)}
+
+\Hypertarget{main_8c_abe5428883c7d18a4f1d24d03a6b1f4b9}\index{main.c@{main.c}!INVINCIBILITY\_DURATION@{INVINCIBILITY\_DURATION}}
+\index{INVINCIBILITY\_DURATION@{INVINCIBILITY\_DURATION}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{INVINCIBILITY\_DURATION}{INVINCIBILITY\_DURATION}}
+{\footnotesize\ttfamily \label{main_8c_abe5428883c7d18a4f1d24d03a6b1f4b9} 
+\#define INVINCIBILITY\+\_\+\+DURATION~120}
+
+\Hypertarget{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}\index{main.c@{main.c}!MAP\_HEIGHT@{MAP\_HEIGHT}}
+\index{MAP\_HEIGHT@{MAP\_HEIGHT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAP\_HEIGHT}{MAP\_HEIGHT}}
+{\footnotesize\ttfamily \label{main_8c_a529d5ebb449edf31d9835d13f4fb9f89} 
+\#define MAP\+\_\+\+HEIGHT~13}
+
+\Hypertarget{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}\index{main.c@{main.c}!MAP\_WIDTH@{MAP\_WIDTH}}
+\index{MAP\_WIDTH@{MAP\_WIDTH}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAP\_WIDTH}{MAP\_WIDTH}}
+{\footnotesize\ttfamily \label{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76} 
+\#define MAP\+\_\+\+WIDTH~15}
+
+\Hypertarget{main_8c_ad3e1766beee573ff7fd0798c4db63217}\index{main.c@{main.c}!MAX\_BOMBS@{MAX\_BOMBS}}
+\index{MAX\_BOMBS@{MAX\_BOMBS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_BOMBS}{MAX\_BOMBS}}
+{\footnotesize\ttfamily \label{main_8c_ad3e1766beee573ff7fd0798c4db63217} 
+\#define MAX\+\_\+\+BOMBS~5}
+
+\Hypertarget{main_8c_a544651f3405cff79c40d898a8e54f507}\index{main.c@{main.c}!MAX\_ENEMIES@{MAX\_ENEMIES}}
+\index{MAX\_ENEMIES@{MAX\_ENEMIES}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_ENEMIES}{MAX\_ENEMIES}}
+{\footnotesize\ttfamily \label{main_8c_a544651f3405cff79c40d898a8e54f507} 
+\#define MAX\+\_\+\+ENEMIES~5}
+
+\Hypertarget{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}\index{main.c@{main.c}!MAX\_EXPLOSION\_CELLS@{MAX\_EXPLOSION\_CELLS}}
+\index{MAX\_EXPLOSION\_CELLS@{MAX\_EXPLOSION\_CELLS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_EXPLOSION\_CELLS}{MAX\_EXPLOSION\_CELLS}}
+{\footnotesize\ttfamily \label{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6} 
+\#define MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS~(1 + 4 \texorpdfstring{$\ast$}{*} 7)}
+
+\Hypertarget{main_8c_a5b4072f66deed0b4ee1f710541cd75b5}\index{main.c@{main.c}!MAX\_POWERUPS@{MAX\_POWERUPS}}
+\index{MAX\_POWERUPS@{MAX\_POWERUPS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_POWERUPS}{MAX\_POWERUPS}}
+{\footnotesize\ttfamily \label{main_8c_a5b4072f66deed0b4ee1f710541cd75b5} 
+\#define MAX\+\_\+\+POWERUPS~(\mbox{\hyperlink{main_8c_a544651f3405cff79c40d898a8e54f507}{MAX\+\_\+\+ENEMIES}})}
+
+\Hypertarget{main_8c_a4515ae79265da8c38a8514e970b996c2}\index{main.c@{main.c}!PLAYER\_MAX\_LIVES@{PLAYER\_MAX\_LIVES}}
+\index{PLAYER\_MAX\_LIVES@{PLAYER\_MAX\_LIVES}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PLAYER\_MAX\_LIVES}{PLAYER\_MAX\_LIVES}}
+{\footnotesize\ttfamily \label{main_8c_a4515ae79265da8c38a8514e970b996c2} 
+\#define PLAYER\+\_\+\+MAX\+\_\+\+LIVES~3}
+
+\Hypertarget{main_8c_a2d1c8fd6238c810d40c207d53b252bdb}\index{main.c@{main.c}!POINTS\_PER\_ENEMY@{POINTS\_PER\_ENEMY}}
+\index{POINTS\_PER\_ENEMY@{POINTS\_PER\_ENEMY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{POINTS\_PER\_ENEMY}{POINTS\_PER\_ENEMY}}
+{\footnotesize\ttfamily \label{main_8c_a2d1c8fd6238c810d40c207d53b252bdb} 
+\#define POINTS\+\_\+\+PER\+\_\+\+ENEMY~100}
+
+\Hypertarget{main_8c_a21ef4bc744f7b5c867145c23bfa7831f}\index{main.c@{main.c}!POINTS\_PER\_WALL@{POINTS\_PER\_WALL}}
+\index{POINTS\_PER\_WALL@{POINTS\_PER\_WALL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{POINTS\_PER\_WALL}{POINTS\_PER\_WALL}}
+{\footnotesize\ttfamily \label{main_8c_a21ef4bc744f7b5c867145c23bfa7831f} 
+\#define POINTS\+\_\+\+PER\+\_\+\+WALL~10}
+
+\Hypertarget{main_8c_aaef3fa43246a96e4c8b993073166dc29}\index{main.c@{main.c}!POWERUP\_DROP\_CHANCE@{POWERUP\_DROP\_CHANCE}}
+\index{POWERUP\_DROP\_CHANCE@{POWERUP\_DROP\_CHANCE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{POWERUP\_DROP\_CHANCE}{POWERUP\_DROP\_CHANCE}}
+{\footnotesize\ttfamily \label{main_8c_aaef3fa43246a96e4c8b993073166dc29} 
+\#define POWERUP\+\_\+\+DROP\+\_\+\+CHANCE~3}
+
+\Hypertarget{main_8c_a62ecd70800687eb2d625af180c4210d7}\index{main.c@{main.c}!TILE\_SIZE@{TILE\_SIZE}}
+\index{TILE\_SIZE@{TILE\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TILE\_SIZE}{TILE\_SIZE}}
+{\footnotesize\ttfamily \label{main_8c_a62ecd70800687eb2d625af180c4210d7} 
+\#define TILE\+\_\+\+SIZE~32}
+
+
+
+\label{doc-enum-members}
+\Hypertarget{main_8c_doc-enum-members}
+\doxysubsection{Dokumentacja typów wyliczanych}
+\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0}\index{main.c@{main.c}!ENEMY\_DIRECTION@{ENEMY\_DIRECTION}}
+\index{ENEMY\_DIRECTION@{ENEMY\_DIRECTION}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{ENEMY\_DIRECTION}{ENEMY\_DIRECTION}}
+{\footnotesize\ttfamily \label{main_8c_a3df0363c6b7a640317faf210de59f7f0} 
+enum \mbox{\hyperlink{main_8c_a3df0363c6b7a640317faf210de59f7f0}{ENEMY\+\_\+\+DIRECTION}}}
+
+
+
+Kierunki, w których mogą poruszać się wrogowie. 
+
+\begin{DoxyEnumFields}[2]{Wartości wyliczeń}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIR\_UP@{DIR\_UP}!main.c@{main.c}}\index{main.c@{main.c}!DIR\_UP@{DIR\_UP}}}\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b}\label{main_8c_a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b} 
+DIR\+\_\+\+UP&Ruch w górę. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIR\_DOWN@{DIR\_DOWN}!main.c@{main.c}}\index{main.c@{main.c}!DIR\_DOWN@{DIR\_DOWN}}}\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d}\label{main_8c_a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d} 
+DIR\+\_\+\+DOWN&Ruch w dół. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIR\_LEFT@{DIR\_LEFT}!main.c@{main.c}}\index{main.c@{main.c}!DIR\_LEFT@{DIR\_LEFT}}}\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660}\label{main_8c_a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660} 
+DIR\+\_\+\+LEFT&Ruch w lewo. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIR\_RIGHT@{DIR\_RIGHT}!main.c@{main.c}}\index{main.c@{main.c}!DIR\_RIGHT@{DIR\_RIGHT}}}\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8}\label{main_8c_a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8} 
+DIR\+\_\+\+RIGHT&Ruch w prawo. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIR\_COUNT@{DIR\_COUNT}!main.c@{main.c}}\index{main.c@{main.c}!DIR\_COUNT@{DIR\_COUNT}}}\Hypertarget{main_8c_a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8}\label{main_8c_a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8} 
+DIR\+\_\+\+COUNT&Liczba możliwych kierunków (używane do losowania). \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{main_8c_a4cc39f049df62b331976f9a4482bd3ea}\index{main.c@{main.c}!GAME\_STATE@{GAME\_STATE}}
+\index{GAME\_STATE@{GAME\_STATE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GAME\_STATE}{GAME\_STATE}}
+{\footnotesize\ttfamily \label{main_8c_a4cc39f049df62b331976f9a4482bd3ea} 
+enum \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}}}
+
+
+
+Możliwe stany, w jakich może znajdować się gra. 
+
+\begin{DoxyEnumFields}[2]{Wartości wyliczeń}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{START\_SCREEN@{START\_SCREEN}!main.c@{main.c}}\index{main.c@{main.c}!START\_SCREEN@{START\_SCREEN}}}\Hypertarget{main_8c_a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d}\label{main_8c_a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d} 
+START\+\_\+\+SCREEN&Ekran startowy gry. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYING@{PLAYING}!main.c@{main.c}}\index{main.c@{main.c}!PLAYING@{PLAYING}}}\Hypertarget{main_8c_a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8}\label{main_8c_a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8} 
+PLAYING&Gra jest w toku. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAME\_OVER@{GAME\_OVER}!main.c@{main.c}}\index{main.c@{main.c}!GAME\_OVER@{GAME\_OVER}}}\Hypertarget{main_8c_a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00}\label{main_8c_a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00} 
+GAME\+\_\+\+OVER&Gra zakończona (wygrana lub przegrana). \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{main_8c_af22f6280558a007d9f070a8009df3f05}\index{main.c@{main.c}!PLAYER\_DIRECTION@{PLAYER\_DIRECTION}}
+\index{PLAYER\_DIRECTION@{PLAYER\_DIRECTION}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PLAYER\_DIRECTION}{PLAYER\_DIRECTION}}
+{\footnotesize\ttfamily \label{main_8c_af22f6280558a007d9f070a8009df3f05} 
+enum \mbox{\hyperlink{main_8c_af22f6280558a007d9f070a8009df3f05}{PLAYER\+\_\+\+DIRECTION}}}
+
+
+
+Kierunki, w które może być zwrócony gracz. 
+
+\begin{DoxyEnumFields}[2]{Wartości wyliczeń}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYER\_DIR\_DOWN@{PLAYER\_DIR\_DOWN}!main.c@{main.c}}\index{main.c@{main.c}!PLAYER\_DIR\_DOWN@{PLAYER\_DIR\_DOWN}}}\Hypertarget{main_8c_af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40}\label{main_8c_af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40} 
+PLAYER\+\_\+\+DIR\+\_\+\+DOWN&Gracz zwrócony w dół. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYER\_DIR\_UP@{PLAYER\_DIR\_UP}!main.c@{main.c}}\index{main.c@{main.c}!PLAYER\_DIR\_UP@{PLAYER\_DIR\_UP}}}\Hypertarget{main_8c_af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7}\label{main_8c_af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7} 
+PLAYER\+\_\+\+DIR\+\_\+\+UP&Gracz zwrócony w górę. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYER\_DIR\_LEFT@{PLAYER\_DIR\_LEFT}!main.c@{main.c}}\index{main.c@{main.c}!PLAYER\_DIR\_LEFT@{PLAYER\_DIR\_LEFT}}}\Hypertarget{main_8c_af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec}\label{main_8c_af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec} 
+PLAYER\+\_\+\+DIR\+\_\+\+LEFT&Gracz zwrócony w lewo. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYER\_DIR\_RIGHT@{PLAYER\_DIR\_RIGHT}!main.c@{main.c}}\index{main.c@{main.c}!PLAYER\_DIR\_RIGHT@{PLAYER\_DIR\_RIGHT}}}\Hypertarget{main_8c_af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45}\label{main_8c_af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45} 
+PLAYER\+\_\+\+DIR\+\_\+\+RIGHT&Gracz zwrócony w prawo. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{main_8c_abf05cc2963762f410c5312552281cb13}\index{main.c@{main.c}!POWERUP\_TYPE@{POWERUP\_TYPE}}
+\index{POWERUP\_TYPE@{POWERUP\_TYPE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{POWERUP\_TYPE}{POWERUP\_TYPE}}
+{\footnotesize\ttfamily \label{main_8c_abf05cc2963762f410c5312552281cb13} 
+enum \mbox{\hyperlink{main_8c_abf05cc2963762f410c5312552281cb13}{POWERUP\+\_\+\+TYPE}}}
+
+
+
+Typy dostępnych power-\/upów w grze. 
+
+\begin{DoxyEnumFields}[2]{Wartości wyliczeń}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POWERUP\_BOMB\_CAP@{POWERUP\_BOMB\_CAP}!main.c@{main.c}}\index{main.c@{main.c}!POWERUP\_BOMB\_CAP@{POWERUP\_BOMB\_CAP}}}\Hypertarget{main_8c_abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5}\label{main_8c_abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5} 
+POWERUP\+\_\+\+BOMB\+\_\+\+CAP&Power-\/up zwiększający maksymalną liczbę bomb. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POWERUP\_RADIUS\_INC@{POWERUP\_RADIUS\_INC}!main.c@{main.c}}\index{main.c@{main.c}!POWERUP\_RADIUS\_INC@{POWERUP\_RADIUS\_INC}}}\Hypertarget{main_8c_abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f}\label{main_8c_abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f} 
+POWERUP\+\_\+\+RADIUS\+\_\+\+INC&Power-\/up zwiększający promień rażenia bomb. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POWERUP\_EXTRA\_LIFE@{POWERUP\_EXTRA\_LIFE}!main.c@{main.c}}\index{main.c@{main.c}!POWERUP\_EXTRA\_LIFE@{POWERUP\_EXTRA\_LIFE}}}\Hypertarget{main_8c_abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2}\label{main_8c_abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2} 
+POWERUP\+\_\+\+EXTRA\+\_\+\+LIFE&Power-\/up dający dodatkowe życie. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POWERUP\_TYPE\_COUNT@{POWERUP\_TYPE\_COUNT}!main.c@{main.c}}\index{main.c@{main.c}!POWERUP\_TYPE\_COUNT@{POWERUP\_TYPE\_COUNT}}}\Hypertarget{main_8c_abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60}\label{main_8c_abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60} 
+POWERUP\+\_\+\+TYPE\+\_\+\+COUNT&Liczba dostępnych typów power-\/upów. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{main_8c_a9ab18d581d866bc511f37af5dee04390}\index{main.c@{main.c}!TILE\_TYPE@{TILE\_TYPE}}
+\index{TILE\_TYPE@{TILE\_TYPE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TILE\_TYPE}{TILE\_TYPE}}
+{\footnotesize\ttfamily \label{main_8c_a9ab18d581d866bc511f37af5dee04390} 
+enum \mbox{\hyperlink{main_8c_a9ab18d581d866bc511f37af5dee04390}{TILE\+\_\+\+TYPE}}}
+
+
+
+Typy kafelków, z których może składać się mapa gry. 
+
+\begin{DoxyEnumFields}[2]{Wartości wyliczeń}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EMPTY@{EMPTY}!main.c@{main.c}}\index{main.c@{main.c}!EMPTY@{EMPTY}}}\Hypertarget{main_8c_a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d}\label{main_8c_a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d} 
+EMPTY&Puste pole, po którym można się poruszać. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SOLID\_WALL@{SOLID\_WALL}!main.c@{main.c}}\index{main.c@{main.c}!SOLID\_WALL@{SOLID\_WALL}}}\Hypertarget{main_8c_a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d}\label{main_8c_a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d} 
+SOLID\+\_\+\+WALL&Niezniszczalna ściana, blokująca ruch i eksplozje. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DESTRUCTIBLE\_WALL@{DESTRUCTIBLE\_WALL}!main.c@{main.c}}\index{main.c@{main.c}!DESTRUCTIBLE\_WALL@{DESTRUCTIBLE\_WALL}}}\Hypertarget{main_8c_a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0}\label{main_8c_a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0} 
+DESTRUCTIBLE\+\_\+\+WALL&Zniszczalna ściana (pudełko), którą można zniszczyć bombą. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{doc-func-members}
+\Hypertarget{main_8c_doc-func-members}
+\doxysubsection{Dokumentacja funkcji}
+\Hypertarget{main_8c_a9d5d7eb28b055ff07979b47b9b5de9da}\index{main.c@{main.c}!aktualizuj\_bomby@{aktualizuj\_bomby}}
+\index{aktualizuj\_bomby@{aktualizuj\_bomby}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{aktualizuj\_bomby()}{aktualizuj\_bomby()}}
+{\footnotesize\ttfamily \label{main_8c_a9d5d7eb28b055ff07979b47b9b5de9da} 
+void aktualizuj\+\_\+bomby (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bomb}{Bomb}}}]{bombs\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_powerup}{Powerup}}}]{powerups\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+s}{, }\item[{bool \texorpdfstring{$\ast$}{*}}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Aktualizuje stan wszystkich bomb na mapie oraz obsługuje ich eksplozje. 
+
+
+\begin{DoxyItemize}
+\item Dla każdej aktywnej bomby dekrementuje jej timer. Jeśli timer osiągnie zero, bomba wybucha. Funkcja oblicza zasięg eksplozji, niszczy zniszczalne ściany (przyznając punkty i potencjalnie odkrywając wyjście), zadaje obrażenia graczowi i wrogom oraz obsługuje wypadanie power-\/upów z pokonanych wrogów. 
+\begin{DoxyParams}{Parametry}
+{\em bombs\+\_\+arr} & Tablica bomb. \\
+\hline
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em powerups\+\_\+arr} & Tablica power-\/upów. \\
+\hline
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry. \\
+\hline
+{\em current\+\_\+s} & Wskaźnik do aktualnego stanu gry. \\
+\hline
+{\em exit\+\_\+rev} & Wskaźnik do flagi odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a76dbfe0dc68c2489cf13781f7f5aedfb}\index{main.c@{main.c}!aktualizuj\_gre@{aktualizuj\_gre}}
+\index{aktualizuj\_gre@{aktualizuj\_gre}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{aktualizuj\_gre()}{aktualizuj\_gre()}}
+{\footnotesize\ttfamily \label{main_8c_a76dbfe0dc68c2489cf13781f7f5aedfb} 
+void aktualizuj\+\_\+gre (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_bomb}{Bomb}}}]{bombs\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_powerup}{Powerup}}}]{powerups\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+s}{, }\item[{bool \texorpdfstring{$\ast$}{*}}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Główna funkcja aktualizująca logikę gry. 
+
+
+\begin{DoxyItemize}
+\item Wywoływana w każdej klatce gry (jeśli stan gry to PLAYING). Odpowiada za aktualizację stanu nietykalności gracza, bomb, wrogów oraz sprawdzanie kolizji i warunków zwycięstwa. 
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em bombs\+\_\+arr} & Tablica bomb. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em powerups\+\_\+arr} & Tablica power-\/upów. \\
+\hline
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry. \\
+\hline
+{\em current\+\_\+s} & Wskaźnik do aktualnego stanu gry. \\
+\hline
+{\em exit\+\_\+rev} & Wskaźnik do flagi odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a5a84b03db753f982d45756c0c7879abe}\index{main.c@{main.c}!aktualizuj\_nietykalnosc\_gracza@{aktualizuj\_nietykalnosc\_gracza}}
+\index{aktualizuj\_nietykalnosc\_gracza@{aktualizuj\_nietykalnosc\_gracza}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{aktualizuj\_nietykalnosc\_gracza()}{aktualizuj\_nietykalnosc\_gracza()}}
+{\footnotesize\ttfamily \label{main_8c_a5a84b03db753f982d45756c0c7879abe} 
+void aktualizuj\+\_\+nietykalnosc\+\_\+gracza (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Aktualizuje stan nietykalności gracza. 
+
+
+\begin{DoxyItemize}
+\item Jeśli gracz jest nietykalny, dekrementuje licznik nietykalności. Gdy licznik osiągnie zero, nietykalność jest wyłączana. 
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a3ed175053d30adb7da08e18961e14a47}\index{main.c@{main.c}!aktualizuj\_wrogow@{aktualizuj\_wrogow}}
+\index{aktualizuj\_wrogow@{aktualizuj\_wrogow}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{aktualizuj\_wrogow()}{aktualizuj\_wrogow()}}
+{\footnotesize\ttfamily \label{main_8c_a3ed175053d30adb7da08e18961e14a47} 
+void aktualizuj\+\_\+wrogow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_bomb}{Bomb}}}]{bombs\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}, }\item[{bool}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Aktualizuje stan wrogów, zarządzając ich ruchem i zmianą kierunku. 
+
+
+\begin{DoxyItemize}
+\item Dla każdego żywego wroga dekrementuje licznik ruchu. Gdy licznik osiągnie zero, wróg próbuje się poruszyć w aktualnym kierunku. Jeśli ruch jest zablokowany (przez ścianę, bombę, innego wroga lub odkryte wyjście), wróg próbuje zmienić kierunek. 
+\begin{DoxyParams}{Parametry}
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em p} & Wskaźnik do struktury gracza (nieużywany bezpośrednio w tej funkcji, ale może być potrzebny w przyszłości). \\
+\hline
+{\em bombs\+\_\+arr} & Tablica bomb (do sprawdzania kolizji). \\
+\hline
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry. \\
+\hline
+{\em exit\+\_\+rev} & Flaga odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_aa9225ab68675de8fe558808791583f7a}\index{main.c@{main.c}!find\_and\_set\_player\_spawn@{find\_and\_set\_player\_spawn}}
+\index{find\_and\_set\_player\_spawn@{find\_and\_set\_player\_spawn}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{find\_and\_set\_player\_spawn()}{find\_and\_set\_player\_spawn()}}
+{\footnotesize\ttfamily \label{main_8c_aa9225ab68675de8fe558808791583f7a} 
+void find\+\_\+and\+\_\+set\+\_\+player\+\_\+spawn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p\+\_\+player}{, }\item[{int}]{map}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Znajduje i ustawia bezpieczne miejsce startowe dla gracza na mapie. 
+
+
+\begin{DoxyItemize}
+\item Funkcja najpierw próbuje umieścić gracza w jednym z preferowanych rogów mapy, upewniając się, że sąsiednie pola są puste. Jeśli to się nie uda, szuka dowolnego pustego pola z dwoma wolnymi sąsiadami. W ostateczności wybiera dowolne puste pole lub wymusza puste pole na (1,1). 
+\begin{DoxyParams}{Parametry}
+{\em p\+\_\+player} & Wskaźnik do struktury gracza. \\
+\hline
+{\em map} & Tablica reprezentująca mapę gry. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_aff1eaabee8697909f7a7a3cb9dd95246}\index{main.c@{main.c}!hide\_exit\_randomly@{hide\_exit\_randomly}}
+\index{hide\_exit\_randomly@{hide\_exit\_randomly}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hide\_exit\_randomly()}{hide\_exit\_randomly()}}
+{\footnotesize\ttfamily \label{main_8c_aff1eaabee8697909f7a7a3cb9dd95246} 
+void hide\+\_\+exit\+\_\+randomly (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Ukrywa wyjście pod losowo wybraną zniszczalną ścianą na mapie. 
+
+
+\begin{DoxyItemize}
+\item Funkcja przeszukuje mapę w poszukiwaniu wszystkich kafelków typu DESTRUCTIBLE\+\_\+\+WALL. Następnie, jeśli takie kafelki istnieją, losowo wybiera jeden z nich i ustawia globalne zmienne {\ttfamily exit\+\_\+x} oraz {\ttfamily exit\+\_\+y} na jego współrzędne. Flaga {\ttfamily exit\+\_\+revealed} jest ustawiana na {\ttfamily false}. 
+\end{DoxyItemize}\Hypertarget{main_8c_af5e9609965bc94fe5f69def369209bce}\index{main.c@{main.c}!initialize\_enemies@{initialize\_enemies}}
+\index{initialize\_enemies@{initialize\_enemies}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{initialize\_enemies()}{initialize\_enemies()}}
+{\footnotesize\ttfamily \label{main_8c_af5e9609965bc94fe5f69def369209bce} 
+void initialize\+\_\+enemies (\begin{DoxyParamCaption}\item[{int}]{map}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p\+\_\+player}{}\end{DoxyParamCaption})}
+
+
+
+Inicjalizuje wrogów, rozmieszczając ich na mapie. 
+
+
+\begin{DoxyItemize}
+\item Dla każdego wroga losuje pozycję na pustym polu, upewniając się, że nie jest to miejsce startowe gracza, ukryte wyjście, ani pozycja innego, już umieszczonego wroga. Wrogowie nie powinni również pojawiać się zbyt blisko gracza na starcie. 
+\begin{DoxyParams}{Parametry}
+{\em map} & Tablica reprezentująca mapę gry. \\
+\hline
+{\em p\+\_\+player} & Wskaźnik do struktury gracza. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a91d5a2bf0c9f75e02e916d0287815c33}\index{main.c@{main.c}!initialize\_map@{initialize\_map}}
+\index{initialize\_map@{initialize\_map}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{initialize\_map()}{initialize\_map()}}
+{\footnotesize\ttfamily \label{main_8c_a91d5a2bf0c9f75e02e916d0287815c33} 
+void initialize\+\_\+map (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Inicjalizuje mapę gry, rozmieszczając na niej ściany (stałe i zniszczalne) oraz puste pola. 
+
+
+\begin{DoxyItemize}
+\item Tworzy obramowanie z niezniszczalnych ścian, rozmieszcza niezniszczalne bloki wewnątrz mapy (wzorzec szachownicy) oraz losowo umieszcza zniszczalne ściany i puste pola. Gwarantuje również puste miejsca dla startu gracza. 
+\end{DoxyItemize}\Hypertarget{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Główna funkcja programu. 
+
+
+\begin{DoxyItemize}
+\item Odpowiada za inicjalizację biblioteki Allegro i jej dodatków, ładowanie zasobów, tworzenie okna, timera i kolejki zdarzeń. Zawiera główną pętlę gry, która obsługuje zdarzenia, aktualizuje logikę gry i rysuje klatki. Na końcu zwalnia wszystkie zaalokowane zasoby. \begin{DoxyReturn}{Zwraca}
+Zwraca 0 w przypadku pomyślnego zakończenia, lub wartość ujemną w przypadku błędu. 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a121aa867bb7f163c7f28a4556fc4f812}\index{main.c@{main.c}!obsluz\_wejscie@{obsluz\_wejscie}}
+\index{obsluz\_wejscie@{obsluz\_wejscie}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{obsluz\_wejscie()}{obsluz\_wejscie()}}
+{\footnotesize\ttfamily \label{main_8c_a121aa867bb7f163c7f28a4556fc4f812} 
+void obsluz\+\_\+wejscie (\begin{DoxyParamCaption}\item[{ALLEGRO\+\_\+\+EVENT}]{event}{, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+s}{}\end{DoxyParamCaption})}
+
+
+
+Obsługuje wejście z klawiatury. 
+
+
+\begin{DoxyItemize}
+\item Reaguje na wciśnięcia klawiszy w zależności od aktualnego stanu gry (START\+\_\+\+SCREEN, PLAYING, GAME\+\_\+\+OVER). Umożliwia ruch gracza, podkładanie bomb oraz nawigację w menu. 
+\begin{DoxyParams}{Parametry}
+{\em event} & Zdarzenie Allegro (oczekiwane jest zdarzenie klawiatury). \\
+\hline
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em current\+\_\+s} & Wskaźnik do aktualnego stanu gry. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_ae317d334f119bdc136f7e0d0571240e5}\index{main.c@{main.c}!rysuj\_bomby\_i\_eksplozje@{rysuj\_bomby\_i\_eksplozje}}
+\index{rysuj\_bomby\_i\_eksplozje@{rysuj\_bomby\_i\_eksplozje}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_bomby\_i\_eksplozje()}{rysuj\_bomby\_i\_eksplozje()}}
+{\footnotesize\ttfamily \label{main_8c_ae317d334f119bdc136f7e0d0571240e5} 
+void rysuj\+\_\+bomby\+\_\+i\+\_\+eksplozje (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bomb}{Bomb}}}]{bombs\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Rysuje bomby (tykające) oraz efekty ich eksplozji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em bombs\+\_\+arr} & Tablica bomb. \\
+\hline
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry (do sprawdzania, czy nie rysować eksplozji na ścianach). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a58ebde6af1ce6a5f832ae0745e03818e}\index{main.c@{main.c}!rysuj\_ekran\_konca\_gry@{rysuj\_ekran\_konca\_gry}}
+\index{rysuj\_ekran\_konca\_gry@{rysuj\_ekran\_konca\_gry}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_ekran\_konca\_gry()}{rysuj\_ekran\_konca\_gry()}}
+{\footnotesize\ttfamily \label{main_8c_a58ebde6af1ce6a5f832ae0745e03818e} 
+void rysuj\+\_\+ekran\+\_\+konca\+\_\+gry (\begin{DoxyParamCaption}\item[{ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}}]{display}{, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{bool}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje ekran końca gry (informację o wygranej lub przegranej oraz wynik). 
+
+
+\begin{DoxyParams}{Parametry}
+{\em display} & Wskaźnik do ekranu Allegro. \\
+\hline
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów (do sprawdzenia warunku wygranej). \\
+\hline
+{\em exit\+\_\+rev} & Flaga odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_aead85648d16662c0efca195838610096}\index{main.c@{main.c}!rysuj\_ekran\_startowy@{rysuj\_ekran\_startowy}}
+\index{rysuj\_ekran\_startowy@{rysuj\_ekran\_startowy}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_ekran\_startowy()}{rysuj\_ekran\_startowy()}}
+{\footnotesize\ttfamily \label{main_8c_aead85648d16662c0efca195838610096} 
+void rysuj\+\_\+ekran\+\_\+startowy (\begin{DoxyParamCaption}\item[{ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}}]{display}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje ekran startowy gry. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em display} & Wskaźnik do ekranu Allegro. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a769e627575de21d6a71fc0b9f46c71ed}\index{main.c@{main.c}!rysuj\_gracza@{rysuj\_gracza}}
+\index{rysuj\_gracza@{rysuj\_gracza}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_gracza()}{rysuj\_gracza()}}
+{\footnotesize\ttfamily \label{main_8c_a769e627575de21d6a71fc0b9f46c71ed} 
+void rysuj\+\_\+gracza (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje gracza na mapie. Wybiera odpowiedni sprite w zależności od kierunku, w którym gracz jest zwrócony. Obsługuje również efekt migotania podczas nietykalności. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a5d4980fa75e17f879dd65ef8f5b74b0e}\index{main.c@{main.c}!rysuj\_gre@{rysuj\_gre}}
+\index{rysuj\_gre@{rysuj\_gre}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_gre()}{rysuj\_gre()}}
+{\footnotesize\ttfamily \label{main_8c_a5d4980fa75e17f879dd65ef8f5b74b0e} 
+void rysuj\+\_\+gre (\begin{DoxyParamCaption}\item[{ALLEGRO\+\_\+\+DISPLAY \texorpdfstring{$\ast$}{*}}]{display}{, }\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_bomb}{Bomb}}}]{bombs\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{struct_powerup}{Powerup}}}]{powerups\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}}}]{current\+\_\+s}{, }\item[{bool}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Główna funkcja rysująca całą grę. 
+
+
+\begin{DoxyItemize}
+\item W zależności od aktualnego stanu gry, wywołuje odpowiednie funkcje rysujące poszczególne elementy (ekran startowy, HUD, mapę, obiekty, gracza, ekran końca gry). Na końcu odświeża ekran. 
+\begin{DoxyParams}{Parametry}
+{\em display} & Wskaźnik do ekranu Allegro. \\
+\hline
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em bombs\+\_\+arr} & Tablica bomb. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em powerups\+\_\+arr} & Tablica power-\/upów. \\
+\hline
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry. \\
+\hline
+{\em current\+\_\+s} & Aktualny stan gry. \\
+\hline
+{\em exit\+\_\+rev} & Flaga odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_ad428f5f46fc2decddda6b243a8106a00}\index{main.c@{main.c}!rysuj\_hud@{rysuj\_hud}}
+\index{rysuj\_hud@{rysuj\_hud}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_hud()}{rysuj\_hud()}}
+{\footnotesize\ttfamily \label{main_8c_ad428f5f46fc2decddda6b243a8106a00} 
+void rysuj\+\_\+hud (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje interfejs użytkownika (HUD) na górze ekranu. Wyświetla informacje takie jak liczba żyć, wynik, liczba pozostałych wrogów, aktualna liczba bomb i moc eksplozji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a7dbc863bccc52dde38d98ff0c7244e15}\index{main.c@{main.c}!rysuj\_mape@{rysuj\_mape}}
+\index{rysuj\_mape@{rysuj\_mape}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_mape()}{rysuj\_mape()}}
+{\footnotesize\ttfamily \label{main_8c_a7dbc863bccc52dde38d98ff0c7244e15} 
+void rysuj\+\_\+mape (\begin{DoxyParamCaption}\item[{int}]{game\+\_\+map\+\_\+arr}{\mbox{[}\+MAP\+\_\+\+HEIGHT\mbox{]}\mbox{[}\+MAP\+\_\+\+WIDTH\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Rysuje kafelki mapy gry (ściany, puste pola). 
+
+
+\begin{DoxyParams}{Parametry}
+{\em game\+\_\+map\+\_\+arr} & Tablica mapy gry. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_abb09d9f855f15f6450c7e1e136d2a820}\index{main.c@{main.c}!rysuj\_powerupy@{rysuj\_powerupy}}
+\index{rysuj\_powerupy@{rysuj\_powerupy}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_powerupy()}{rysuj\_powerupy()}}
+{\footnotesize\ttfamily \label{main_8c_abb09d9f855f15f6450c7e1e136d2a820} 
+void rysuj\+\_\+powerupy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_powerup}{Powerup}}}]{powerups\+\_\+arr}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Rysuje aktywne power-\/upy na mapie. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em powerups\+\_\+arr} & Tablica power-\/upów. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_ad634ef8d16c277cf892ba3205a962659}\index{main.c@{main.c}!rysuj\_wrogow@{rysuj\_wrogow}}
+\index{rysuj\_wrogow@{rysuj\_wrogow}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_wrogow()}{rysuj\_wrogow()}}
+{\footnotesize\ttfamily \label{main_8c_ad634ef8d16c277cf892ba3205a962659} 
+void rysuj\+\_\+wrogow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Rysuje wrogów na mapie. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a337a5f906b05440f0bbd1f8df874579a}\index{main.c@{main.c}!rysuj\_wyjscie@{rysuj\_wyjscie}}
+\index{rysuj\_wyjscie@{rysuj\_wyjscie}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rysuj\_wyjscie()}{rysuj\_wyjscie()}}
+{\footnotesize\ttfamily \label{main_8c_a337a5f906b05440f0bbd1f8df874579a} 
+void rysuj\+\_\+wyjscie (\begin{DoxyParamCaption}\item[{bool}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje wyjście z poziomu, jeśli zostało odkryte. 
+
+
+\begin{DoxyItemize}
+\item Jeśli dostępny jest sprite wyjścia ({\ttfamily exit\+\_\+sprite}), używa go. W przeciwnym razie rysuje domyślny, pulsujący efekt portalu. 
+\begin{DoxyParams}{Parametry}
+{\em exit\+\_\+rev} & Flaga wskazująca, czy wyjście jest odkryte. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_acdd063f38723e2045c2fa04b6dae2cff}\index{main.c@{main.c}!setup\_new\_game@{setup\_new\_game}}
+\index{setup\_new\_game@{setup\_new\_game}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{setup\_new\_game()}{setup\_new\_game()}}
+{\footnotesize\ttfamily \label{main_8c_acdd063f38723e2045c2fa04b6dae2cff} 
+void setup\+\_\+new\+\_\+game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Przygotowuje nową grę, resetując stan wszystkich elementów gry. 
+
+
+\begin{DoxyItemize}
+\item Wywołuje funkcje inicjalizujące mapę, wyjście, gracza i wrogów. Resetuje również stan bomb i power-\/upów oraz uruchamia muzykę w tle. 
+\end{DoxyItemize}\Hypertarget{main_8c_affc522e82b4092296d58313cfab975ba}\index{main.c@{main.c}!sprawdz\_kolizje\_gracz\_wrog@{sprawdz\_kolizje\_gracz\_wrog}}
+\index{sprawdz\_kolizje\_gracz\_wrog@{sprawdz\_kolizje\_gracz\_wrog}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{sprawdz\_kolizje\_gracz\_wrog()}{sprawdz\_kolizje\_gracz\_wrog()}}
+{\footnotesize\ttfamily \label{main_8c_affc522e82b4092296d58313cfab975ba} 
+void sprawdz\+\_\+kolizje\+\_\+gracz\+\_\+wrog (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+s}{}\end{DoxyParamCaption})}
+
+
+
+Sprawdza kolizję gracza z wrogami. 
+
+
+\begin{DoxyItemize}
+\item Jeśli gracz nie jest nietykalny i wejdzie na pole zajmowane przez żywego wroga, traci życie. Jeśli liczba żyć spadnie do zera, gra się kończy. Po kolizji gracz staje się na chwilę nietykalny. 
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em current\+\_\+s} & Wskaźnik do aktualnego stanu gry. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_a1f05ed4e4438dfe8771cf59d0a0dcbaa}\index{main.c@{main.c}!sprawdz\_warunek\_wygranej@{sprawdz\_warunek\_wygranej}}
+\index{sprawdz\_warunek\_wygranej@{sprawdz\_warunek\_wygranej}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{sprawdz\_warunek\_wygranej()}{sprawdz\_warunek\_wygranej()}}
+{\footnotesize\ttfamily \label{main_8c_a1f05ed4e4438dfe8771cf59d0a0dcbaa} 
+void sprawdz\+\_\+warunek\+\_\+wygranej (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{struct_enemy}{Enemy}}}]{enemies\+\_\+arr}{\mbox{[}$\,$\mbox{]}, }\item[{bool}]{exit\+\_\+rev}{, }\item[{int}]{ex\+\_\+x}{, }\item[{int}]{ex\+\_\+y}{, }\item[{\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+s}{}\end{DoxyParamCaption})}
+
+
+
+Sprawdza, czy warunki zwycięstwa zostały spełnione. 
+
+
+\begin{DoxyItemize}
+\item Warunki zwycięstwa\+: gracz żyje, wszyscy wrogowie są pokonani, wyjście jest odkryte, a gracz znajduje się na polu wyjścia. 
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+{\em enemies\+\_\+arr} & Tablica wrogów. \\
+\hline
+{\em exit\+\_\+rev} & Flaga odkrycia wyjścia. \\
+\hline
+{\em ex\+\_\+x} & Współrzędna X wyjścia. \\
+\hline
+{\em ex\+\_\+y} & Współrzędna Y wyjścia. \\
+\hline
+{\em current\+\_\+s} & Wskaźnik do aktualnego stanu gry. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\Hypertarget{main_8c_aa0f25a123bcba60521f5cecfce23c376}\index{main.c@{main.c}!try\_plant\_bomb@{try\_plant\_bomb}}
+\index{try\_plant\_bomb@{try\_plant\_bomb}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{try\_plant\_bomb()}{try\_plant\_bomb()}}
+{\footnotesize\ttfamily \label{main_8c_aa0f25a123bcba60521f5cecfce23c376} 
+void try\+\_\+plant\+\_\+bomb (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_player}{Player}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Umożliwia graczowi podłożenie bomby. 
+
+
+\begin{DoxyItemize}
+\item Sprawdza, czy gracz nie przekroczył swojego limitu aktywnych bomb oraz czy na danym polu nie znajduje się już inna bomba. Jeśli warunki są spełnione, nowa bomba jest aktywowana na pozycji gracza. 
+\begin{DoxyParams}{Parametry}
+{\em p} & Wskaźnik do struktury gracza. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}
+
+\label{doc-var-members}
+\Hypertarget{main_8c_doc-var-members}
+\doxysubsection{Dokumentacja zmiennych}
+\Hypertarget{main_8c_adf596cd6647aee4fffa4cb0d4cdff13e}\index{main.c@{main.c}!background\_music\_instance@{background\_music\_instance}}
+\index{background\_music\_instance@{background\_music\_instance}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{background\_music\_instance}{background\_music\_instance}}
+{\footnotesize\ttfamily \label{main_8c_adf596cd6647aee4fffa4cb0d4cdff13e} 
+ALLEGRO\+\_\+\+SAMPLE\+\_\+\+INSTANCE\texorpdfstring{$\ast$}{*} background\+\_\+music\+\_\+instance = NULL}
+
+\Hypertarget{main_8c_a701b3112b6950dfbb231e71ca126de1e}\index{main.c@{main.c}!background\_music\_sample@{background\_music\_sample}}
+\index{background\_music\_sample@{background\_music\_sample}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{background\_music\_sample}{background\_music\_sample}}
+{\footnotesize\ttfamily \label{main_8c_a701b3112b6950dfbb231e71ca126de1e} 
+ALLEGRO\+\_\+\+SAMPLE\texorpdfstring{$\ast$}{*} background\+\_\+music\+\_\+sample = NULL}
+
+\Hypertarget{main_8c_a84cb04e70d076742d55818063d81e1cb}\index{main.c@{main.c}!bombs@{bombs}}
+\index{bombs@{bombs}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{bombs}{bombs}}
+{\footnotesize\ttfamily \label{main_8c_a84cb04e70d076742d55818063d81e1cb} 
+\mbox{\hyperlink{struct_bomb}{Bomb}} bombs\mbox{[}\mbox{\hyperlink{main_8c_ad3e1766beee573ff7fd0798c4db63217}{MAX\+\_\+\+BOMBS}}\mbox{]}}
+
+\Hypertarget{main_8c_aacac1b826495bfab7f147becc245e071}\index{main.c@{main.c}!current\_game\_state@{current\_game\_state}}
+\index{current\_game\_state@{current\_game\_state}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{current\_game\_state}{current\_game\_state}}
+{\footnotesize\ttfamily \label{main_8c_aacac1b826495bfab7f147becc245e071} 
+\mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3ea}{GAME\+\_\+\+STATE}} current\+\_\+game\+\_\+state = \mbox{\hyperlink{main_8c_a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d}{START\+\_\+\+SCREEN}}}
+
+\Hypertarget{main_8c_af2010767c286558776587c55ed927199}\index{main.c@{main.c}!destructible\_wall\_sprite@{destructible\_wall\_sprite}}
+\index{destructible\_wall\_sprite@{destructible\_wall\_sprite}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{destructible\_wall\_sprite}{destructible\_wall\_sprite}}
+{\footnotesize\ttfamily \label{main_8c_af2010767c286558776587c55ed927199} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} destructible\+\_\+wall\+\_\+sprite = NULL}
+
+\Hypertarget{main_8c_a3f2f6dd26ced2afe27705bc4e1b05e60}\index{main.c@{main.c}!dynamite\_sprite@{dynamite\_sprite}}
+\index{dynamite\_sprite@{dynamite\_sprite}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{dynamite\_sprite}{dynamite\_sprite}}
+{\footnotesize\ttfamily \label{main_8c_a3f2f6dd26ced2afe27705bc4e1b05e60} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} dynamite\+\_\+sprite = NULL}
+
+\Hypertarget{main_8c_aa77cdda066ee8dc7d7deca04003842b1}\index{main.c@{main.c}!enemies@{enemies}}
+\index{enemies@{enemies}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{enemies}{enemies}}
+{\footnotesize\ttfamily \label{main_8c_aa77cdda066ee8dc7d7deca04003842b1} 
+\mbox{\hyperlink{struct_enemy}{Enemy}} enemies\mbox{[}\mbox{\hyperlink{main_8c_a544651f3405cff79c40d898a8e54f507}{MAX\+\_\+\+ENEMIES}}\mbox{]}}
+
+\Hypertarget{main_8c_a67afaaa24decd15326d0b5a7b4857db4}\index{main.c@{main.c}!exit\_revealed@{exit\_revealed}}
+\index{exit\_revealed@{exit\_revealed}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{exit\_revealed}{exit\_revealed}}
+{\footnotesize\ttfamily \label{main_8c_a67afaaa24decd15326d0b5a7b4857db4} 
+bool exit\+\_\+revealed = false}
+
+\Hypertarget{main_8c_a8b85cfb2032cf34fbcb4bee2842c3030}\index{main.c@{main.c}!exit\_sprite@{exit\_sprite}}
+\index{exit\_sprite@{exit\_sprite}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{exit\_sprite}{exit\_sprite}}
+{\footnotesize\ttfamily \label{main_8c_a8b85cfb2032cf34fbcb4bee2842c3030} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} exit\+\_\+sprite = NULL}
+
+\Hypertarget{main_8c_ada4b633ecd8c11a9b0a9d91347f8ccff}\index{main.c@{main.c}!exit\_x@{exit\_x}}
+\index{exit\_x@{exit\_x}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{exit\_x}{exit\_x}}
+{\footnotesize\ttfamily \label{main_8c_ada4b633ecd8c11a9b0a9d91347f8ccff} 
+int exit\+\_\+x = -\/1}
+
+\Hypertarget{main_8c_af106871dd79d268d74ac02a47ccdf689}\index{main.c@{main.c}!exit\_y@{exit\_y}}
+\index{exit\_y@{exit\_y}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{exit\_y}{exit\_y}}
+{\footnotesize\ttfamily \label{main_8c_af106871dd79d268d74ac02a47ccdf689} 
+int exit\+\_\+y = -\/1}
+
+\Hypertarget{main_8c_ac1c96c751d869b6c919670f886f734ee}\index{main.c@{main.c}!font\_main@{font\_main}}
+\index{font\_main@{font\_main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{font\_main}{font\_main}}
+{\footnotesize\ttfamily \label{main_8c_ac1c96c751d869b6c919670f886f734ee} 
+ALLEGRO\+\_\+\+FONT\texorpdfstring{$\ast$}{*} font\+\_\+main = NULL}
+
+\Hypertarget{main_8c_a5578442946f6e26c17e6f7e5f3b4cc63}\index{main.c@{main.c}!game\_map@{game\_map}}
+\index{game\_map@{game\_map}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{game\_map}{game\_map}}
+{\footnotesize\ttfamily \label{main_8c_a5578442946f6e26c17e6f7e5f3b4cc63} 
+int game\+\_\+map\mbox{[}\mbox{\hyperlink{main_8c_a529d5ebb449edf31d9835d13f4fb9f89}{MAP\+\_\+\+HEIGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{main_8c_aa037a6d6a4f04d51c7ec1c9ee9054e76}{MAP\+\_\+\+WIDTH}}\mbox{]}}
+
+\Hypertarget{main_8c_af61d6983a9396a11078805087518af88}\index{main.c@{main.c}!player@{player}}
+\index{player@{player}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{player}{player}}
+{\footnotesize\ttfamily \label{main_8c_af61d6983a9396a11078805087518af88} 
+\mbox{\hyperlink{struct_player}{Player}} player}
+
+\Hypertarget{main_8c_a7a2551316b77fbea922b621405e21563}\index{main.c@{main.c}!player\_sprite\_back@{player\_sprite\_back}}
+\index{player\_sprite\_back@{player\_sprite\_back}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{player\_sprite\_back}{player\_sprite\_back}}
+{\footnotesize\ttfamily \label{main_8c_a7a2551316b77fbea922b621405e21563} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} player\+\_\+sprite\+\_\+back = NULL}
+
+\Hypertarget{main_8c_adad312233360ca637ac12b1c51b458fb}\index{main.c@{main.c}!player\_sprite\_front@{player\_sprite\_front}}
+\index{player\_sprite\_front@{player\_sprite\_front}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{player\_sprite\_front}{player\_sprite\_front}}
+{\footnotesize\ttfamily \label{main_8c_adad312233360ca637ac12b1c51b458fb} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} player\+\_\+sprite\+\_\+front = NULL}
+
+\Hypertarget{main_8c_ae65b23927f07edb586f48edb6d639f29}\index{main.c@{main.c}!player\_sprite\_left@{player\_sprite\_left}}
+\index{player\_sprite\_left@{player\_sprite\_left}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{player\_sprite\_left}{player\_sprite\_left}}
+{\footnotesize\ttfamily \label{main_8c_ae65b23927f07edb586f48edb6d639f29} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} player\+\_\+sprite\+\_\+left = NULL}
+
+\Hypertarget{main_8c_a4e6e5bbbddf81404025e55d69db6c5c2}\index{main.c@{main.c}!player\_sprite\_right@{player\_sprite\_right}}
+\index{player\_sprite\_right@{player\_sprite\_right}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{player\_sprite\_right}{player\_sprite\_right}}
+{\footnotesize\ttfamily \label{main_8c_a4e6e5bbbddf81404025e55d69db6c5c2} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} player\+\_\+sprite\+\_\+right = NULL}
+
+\Hypertarget{main_8c_a190946727866ecc9f54b406c2c7e91fd}\index{main.c@{main.c}!powerups@{powerups}}
+\index{powerups@{powerups}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{powerups}{powerups}}
+{\footnotesize\ttfamily \label{main_8c_a190946727866ecc9f54b406c2c7e91fd} 
+\mbox{\hyperlink{struct_powerup}{Powerup}} powerups\mbox{[}\mbox{\hyperlink{main_8c_a5b4072f66deed0b4ee1f710541cd75b5}{MAX\+\_\+\+POWERUPS}}\mbox{]}}
+
+\Hypertarget{main_8c_a23578889e80423fa7a46c533149a39ab}\index{main.c@{main.c}!sparks\_sprite@{sparks\_sprite}}
+\index{sparks\_sprite@{sparks\_sprite}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{sparks\_sprite}{sparks\_sprite}}
+{\footnotesize\ttfamily \label{main_8c_a23578889e80423fa7a46c533149a39ab} 
+ALLEGRO\+\_\+\+BITMAP\texorpdfstring{$\ast$}{*} sparks\+\_\+sprite = NULL}
+

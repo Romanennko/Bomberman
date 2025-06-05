@@ -1,0 +1,139 @@
+\doxysection{Dokumentacja struktury Bomb}
+\hypertarget{struct_bomb}{}\label{struct_bomb}\index{Bomb@{Bomb}}
+
+
+Struktura przechowująca informacje o pojedynczej bombie.  
+
+
+\doxysubsubsection*{Pola danych}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{struct_bomb_a1974a0691b7c011ec663fe59ed935ce4}{x}}
+\item 
+int \mbox{\hyperlink{struct_bomb_af1eda56fb9a0e9c4444ed9bc13a4cf5e}{y}}
+\begin{DoxyCompactList}\small\item\em Pozycja bomby na mapie (współrzędne kafelków). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_ab29277aaa943cfe854555f74ebf379dd}{timer}}
+\begin{DoxyCompactList}\small\item\em Licznik czasu pozostałego do wybuchu bomby. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_a5432da1ee936ee646826ab8927dbd76e}{radius}}
+\begin{DoxyCompactList}\small\item\em Promień rażenia eksplozji bomby. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_bomb_aa4d49c95d37cee2ce72485003630cfee}{active}}
+\begin{DoxyCompactList}\small\item\em Flaga wskazująca, czy bomba jest aktywna (tyka lub wybucha). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_bomb_ab554241b2d173e21dc8eaf5eb6f9adda}{exploding}}
+\begin{DoxyCompactList}\small\item\em Flaga wskazująca, czy bomba aktualnie wybucha. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_a6c6e58e8937ba70a1721992eb3f92d04}{explosion\+\_\+timer}}
+\begin{DoxyCompactList}\small\item\em Licznik czasu pozostałego do zakończenia efektu eksplozji. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_a39ea400c609e5e2b0231af6c83ed548d}{affected\+\_\+explosion\+\_\+cells\+\_\+x}} \mbox{[}\mbox{\hyperlink{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}{MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Tablica współrzędnych X kafelków objętych eksplozją. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_a546cd29d3eec321e39b9f68aeb4adcc1}{affected\+\_\+explosion\+\_\+cells\+\_\+y}} \mbox{[}\mbox{\hyperlink{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}{MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Tablica współrzędnych Y kafelków objętych eksplozją. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_bomb_a4e0efc830af94610ca750e5a6f980c34}{num\+\_\+affected\+\_\+explosion\+\_\+cells}}
+\begin{DoxyCompactList}\small\item\em Liczba kafelków faktycznie objętych daną eksplozją. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Opis szczegółowy}
+Struktura przechowująca informacje o pojedynczej bombie. 
+
+\label{doc-variable-members}
+\Hypertarget{struct_bomb_doc-variable-members}
+\doxysubsection{Dokumentacja pól}
+\Hypertarget{struct_bomb_aa4d49c95d37cee2ce72485003630cfee}\index{Bomb@{Bomb}!active@{active}}
+\index{active@{active}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{active}{active}}
+{\footnotesize\ttfamily \label{struct_bomb_aa4d49c95d37cee2ce72485003630cfee} 
+bool Bomb\+::active}
+
+
+
+Flaga wskazująca, czy bomba jest aktywna (tyka lub wybucha). 
+
+\Hypertarget{struct_bomb_a39ea400c609e5e2b0231af6c83ed548d}\index{Bomb@{Bomb}!affected\_explosion\_cells\_x@{affected\_explosion\_cells\_x}}
+\index{affected\_explosion\_cells\_x@{affected\_explosion\_cells\_x}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{affected\_explosion\_cells\_x}{affected\_explosion\_cells\_x}}
+{\footnotesize\ttfamily \label{struct_bomb_a39ea400c609e5e2b0231af6c83ed548d} 
+int Bomb\+::affected\+\_\+explosion\+\_\+cells\+\_\+x\mbox{[}\mbox{\hyperlink{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}{MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS}}\mbox{]}}
+
+
+
+Tablica współrzędnych X kafelków objętych eksplozją. 
+
+\Hypertarget{struct_bomb_a546cd29d3eec321e39b9f68aeb4adcc1}\index{Bomb@{Bomb}!affected\_explosion\_cells\_y@{affected\_explosion\_cells\_y}}
+\index{affected\_explosion\_cells\_y@{affected\_explosion\_cells\_y}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{affected\_explosion\_cells\_y}{affected\_explosion\_cells\_y}}
+{\footnotesize\ttfamily \label{struct_bomb_a546cd29d3eec321e39b9f68aeb4adcc1} 
+int Bomb\+::affected\+\_\+explosion\+\_\+cells\+\_\+y\mbox{[}\mbox{\hyperlink{main_8c_a2f9c1f0853e65daabe0a7c6005104eb6}{MAX\+\_\+\+EXPLOSION\+\_\+\+CELLS}}\mbox{]}}
+
+
+
+Tablica współrzędnych Y kafelków objętych eksplozją. 
+
+\Hypertarget{struct_bomb_ab554241b2d173e21dc8eaf5eb6f9adda}\index{Bomb@{Bomb}!exploding@{exploding}}
+\index{exploding@{exploding}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{exploding}{exploding}}
+{\footnotesize\ttfamily \label{struct_bomb_ab554241b2d173e21dc8eaf5eb6f9adda} 
+bool Bomb\+::exploding}
+
+
+
+Flaga wskazująca, czy bomba aktualnie wybucha. 
+
+\Hypertarget{struct_bomb_a6c6e58e8937ba70a1721992eb3f92d04}\index{Bomb@{Bomb}!explosion\_timer@{explosion\_timer}}
+\index{explosion\_timer@{explosion\_timer}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{explosion\_timer}{explosion\_timer}}
+{\footnotesize\ttfamily \label{struct_bomb_a6c6e58e8937ba70a1721992eb3f92d04} 
+int Bomb\+::explosion\+\_\+timer}
+
+
+
+Licznik czasu pozostałego do zakończenia efektu eksplozji. 
+
+\Hypertarget{struct_bomb_a4e0efc830af94610ca750e5a6f980c34}\index{Bomb@{Bomb}!num\_affected\_explosion\_cells@{num\_affected\_explosion\_cells}}
+\index{num\_affected\_explosion\_cells@{num\_affected\_explosion\_cells}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{num\_affected\_explosion\_cells}{num\_affected\_explosion\_cells}}
+{\footnotesize\ttfamily \label{struct_bomb_a4e0efc830af94610ca750e5a6f980c34} 
+int Bomb\+::num\+\_\+affected\+\_\+explosion\+\_\+cells}
+
+
+
+Liczba kafelków faktycznie objętych daną eksplozją. 
+
+\Hypertarget{struct_bomb_a5432da1ee936ee646826ab8927dbd76e}\index{Bomb@{Bomb}!radius@{radius}}
+\index{radius@{radius}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily \label{struct_bomb_a5432da1ee936ee646826ab8927dbd76e} 
+int Bomb\+::radius}
+
+
+
+Promień rażenia eksplozji bomby. 
+
+\Hypertarget{struct_bomb_ab29277aaa943cfe854555f74ebf379dd}\index{Bomb@{Bomb}!timer@{timer}}
+\index{timer@{timer}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{timer}{timer}}
+{\footnotesize\ttfamily \label{struct_bomb_ab29277aaa943cfe854555f74ebf379dd} 
+int Bomb\+::timer}
+
+
+
+Licznik czasu pozostałego do wybuchu bomby. 
+
+\Hypertarget{struct_bomb_a1974a0691b7c011ec663fe59ed935ce4}\index{Bomb@{Bomb}!x@{x}}
+\index{x@{x}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \label{struct_bomb_a1974a0691b7c011ec663fe59ed935ce4} 
+int Bomb\+::x}
+
+\Hypertarget{struct_bomb_af1eda56fb9a0e9c4444ed9bc13a4cf5e}\index{Bomb@{Bomb}!y@{y}}
+\index{y@{y}!Bomb@{Bomb}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily \label{struct_bomb_af1eda56fb9a0e9c4444ed9bc13a4cf5e} 
+int Bomb\+::y}
+
+
+
+Pozycja bomby na mapie (współrzędne kafelków). 
+
+
+
+Dokumentacja dla tej struktury została wygenerowana z pliku\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8c}{main.\+c}}\end{DoxyCompactItemize}
