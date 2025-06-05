@@ -1,0 +1,1822 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Bomberman: Dokumentacja pliku main.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Bomberman
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano za pomocą Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('main_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Dokumentacja pliku main.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Prosta implementacja gry Bomberman przy użyciu biblioteki Allegro 5.  
+<a href="#details">Więcej...</a></p>
+<div class="textblock"><code>#include &lt;allegro5/allegro.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_primitives.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_image.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_font.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_ttf.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_audio.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_acodec.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Struktury danych</h2></td></tr>
+<tr class="memitem:Player" id="r_Player"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_player.html">Player</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struktura przechowująca wszystkie informacje dotyczące gracza.  <a href="struct_player.html#details">Więcej...</a><br /></td></tr>
+<tr class="memitem:Enemy" id="r_Enemy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_enemy.html">Enemy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struktura przechowująca informacje o pojedynczym wrogu.  <a href="struct_enemy.html#details">Więcej...</a><br /></td></tr>
+<tr class="memitem:Powerup" id="r_Powerup"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_powerup.html">Powerup</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struktura przechowująca informacje o pojedynczym power-upie.  <a href="struct_powerup.html#details">Więcej...</a><br /></td></tr>
+<tr class="memitem:Bomb" id="r_Bomb"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_bomb.html">Bomb</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struktura przechowująca informacje o pojedynczej bombie.  <a href="struct_bomb.html#details">Więcej...</a><br /></td></tr>
+<tr class="memitem:DestructibleWallCoord" id="r_DestructibleWallCoord"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_destructible_wall_coord.html">DestructibleWallCoord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struktura pomocnicza do przechowywania współrzędnych zniszczalnych ścian. Używana podczas losowego umieszczania ukrytego wyjścia.  <a href="struct_destructible_wall_coord.html#details">Więcej...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Definicje</h2></td></tr>
+<tr class="memitem:aa037a6d6a4f04d51c7ec1c9ee9054e76" id="r_aa037a6d6a4f04d51c7ec1c9ee9054e76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>&#160;&#160;&#160;15</td></tr>
+<tr class="memitem:a529d5ebb449edf31d9835d13f4fb9f89" id="r_a529d5ebb449edf31d9835d13f4fb9f89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>&#160;&#160;&#160;13</td></tr>
+<tr class="memitem:a62ecd70800687eb2d625af180c4210d7" id="r_a62ecd70800687eb2d625af180c4210d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memitem:a95793714d3abbdf0175f42c34590c9f4" id="r_a95793714d3abbdf0175f42c34590c9f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95793714d3abbdf0175f42c34590c9f4">HUD_HEIGHT</a>&#160;&#160;&#160;(<a class="el" href="#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a> * 2)</td></tr>
+<tr class="memitem:a4515ae79265da8c38a8514e970b996c2" id="r_a4515ae79265da8c38a8514e970b996c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4515ae79265da8c38a8514e970b996c2">PLAYER_MAX_LIVES</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:abe5428883c7d18a4f1d24d03a6b1f4b9" id="r_abe5428883c7d18a4f1d24d03a6b1f4b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe5428883c7d18a4f1d24d03a6b1f4b9">INVINCIBILITY_DURATION</a>&#160;&#160;&#160;120</td></tr>
+<tr class="memitem:a544651f3405cff79c40d898a8e54f507" id="r_a544651f3405cff79c40d898a8e54f507"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a544651f3405cff79c40d898a8e54f507">MAX_ENEMIES</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:a21b68313576e8c163c52a7bfe279dd7b" id="r_a21b68313576e8c163c52a7bfe279dd7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21b68313576e8c163c52a7bfe279dd7b">ENEMY_MOVE_DELAY</a>&#160;&#160;&#160;30</td></tr>
+<tr class="memitem:a2d1c8fd6238c810d40c207d53b252bdb" id="r_a2d1c8fd6238c810d40c207d53b252bdb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d1c8fd6238c810d40c207d53b252bdb">POINTS_PER_ENEMY</a>&#160;&#160;&#160;100</td></tr>
+<tr class="memitem:a21ef4bc744f7b5c867145c23bfa7831f" id="r_a21ef4bc744f7b5c867145c23bfa7831f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21ef4bc744f7b5c867145c23bfa7831f">POINTS_PER_WALL</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memitem:a5b4072f66deed0b4ee1f710541cd75b5" id="r_a5b4072f66deed0b4ee1f710541cd75b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b4072f66deed0b4ee1f710541cd75b5">MAX_POWERUPS</a>&#160;&#160;&#160;(<a class="el" href="#a544651f3405cff79c40d898a8e54f507">MAX_ENEMIES</a>)</td></tr>
+<tr class="memitem:aaef3fa43246a96e4c8b993073166dc29" id="r_aaef3fa43246a96e4c8b993073166dc29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaef3fa43246a96e4c8b993073166dc29">POWERUP_DROP_CHANCE</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:ad3e1766beee573ff7fd0798c4db63217" id="r_ad3e1766beee573ff7fd0798c4db63217"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3e1766beee573ff7fd0798c4db63217">MAX_BOMBS</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:aedfb1ad430a057b1a0021f1b1d865029" id="r_aedfb1ad430a057b1a0021f1b1d865029"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedfb1ad430a057b1a0021f1b1d865029">EXPLOSION_DURATION</a>&#160;&#160;&#160;30</td></tr>
+<tr class="memitem:a23166ed7c1baea0fae1efccdf0d3c5c0" id="r_a23166ed7c1baea0fae1efccdf0d3c5c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23166ed7c1baea0fae1efccdf0d3c5c0">BOMB_TIMER_DURATION</a>&#160;&#160;&#160;120</td></tr>
+<tr class="memitem:a2f9c1f0853e65daabe0a7c6005104eb6" id="r_a2f9c1f0853e65daabe0a7c6005104eb6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f9c1f0853e65daabe0a7c6005104eb6">MAX_EXPLOSION_CELLS</a>&#160;&#160;&#160;(1 + 4 * 7)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Wyliczenia</h2></td></tr>
+<tr class="memitem:af22f6280558a007d9f070a8009df3f05" id="r_af22f6280558a007d9f070a8009df3f05"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af22f6280558a007d9f070a8009df3f05">PLAYER_DIRECTION</a> { <a class="el" href="#af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40">PLAYER_DIR_DOWN</a>
+, <a class="el" href="#af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7">PLAYER_DIR_UP</a>
+, <a class="el" href="#af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec">PLAYER_DIR_LEFT</a>
+, <a class="el" href="#af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45">PLAYER_DIR_RIGHT</a>
+ }</td></tr>
+<tr class="memdesc:af22f6280558a007d9f070a8009df3f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kierunki, w które może być zwrócony gracz.  <a href="#af22f6280558a007d9f070a8009df3f05">Więcej...</a><br /></td></tr>
+<tr class="memitem:a4cc39f049df62b331976f9a4482bd3ea" id="r_a4cc39f049df62b331976f9a4482bd3ea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> { <a class="el" href="#a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d">START_SCREEN</a>
+, <a class="el" href="#a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8">PLAYING</a>
+, <a class="el" href="#a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00">GAME_OVER</a>
+ }</td></tr>
+<tr class="memdesc:a4cc39f049df62b331976f9a4482bd3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Możliwe stany, w jakich może znajdować się gra.  <a href="#a4cc39f049df62b331976f9a4482bd3ea">Więcej...</a><br /></td></tr>
+<tr class="memitem:a9ab18d581d866bc511f37af5dee04390" id="r_a9ab18d581d866bc511f37af5dee04390"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ab18d581d866bc511f37af5dee04390">TILE_TYPE</a> { <a class="el" href="#a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d">EMPTY</a>
+, <a class="el" href="#a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d">SOLID_WALL</a>
+, <a class="el" href="#a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0">DESTRUCTIBLE_WALL</a>
+ }</td></tr>
+<tr class="memdesc:a9ab18d581d866bc511f37af5dee04390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typy kafelków, z których może składać się mapa gry.  <a href="#a9ab18d581d866bc511f37af5dee04390">Więcej...</a><br /></td></tr>
+<tr class="memitem:a3df0363c6b7a640317faf210de59f7f0" id="r_a3df0363c6b7a640317faf210de59f7f0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3df0363c6b7a640317faf210de59f7f0">ENEMY_DIRECTION</a> { <br />
+&#160;&#160;<a class="el" href="#a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b">DIR_UP</a>
+, <a class="el" href="#a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d">DIR_DOWN</a>
+, <a class="el" href="#a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660">DIR_LEFT</a>
+, <a class="el" href="#a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8">DIR_RIGHT</a>
+, <br />
+&#160;&#160;<a class="el" href="#a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8">DIR_COUNT</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a3df0363c6b7a640317faf210de59f7f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kierunki, w których mogą poruszać się wrogowie.  <a href="#a3df0363c6b7a640317faf210de59f7f0">Więcej...</a><br /></td></tr>
+<tr class="memitem:abf05cc2963762f410c5312552281cb13" id="r_abf05cc2963762f410c5312552281cb13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf05cc2963762f410c5312552281cb13">POWERUP_TYPE</a> { <a class="el" href="#abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5">POWERUP_BOMB_CAP</a>
+, <a class="el" href="#abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f">POWERUP_RADIUS_INC</a>
+, <a class="el" href="#abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2">POWERUP_EXTRA_LIFE</a>
+, <a class="el" href="#abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60">POWERUP_TYPE_COUNT</a>
+ }</td></tr>
+<tr class="memdesc:abf05cc2963762f410c5312552281cb13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typy dostępnych power-upów w grze.  <a href="#abf05cc2963762f410c5312552281cb13">Więcej...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funkcje</h2></td></tr>
+<tr class="memitem:a91d5a2bf0c9f75e02e916d0287815c33" id="r_a91d5a2bf0c9f75e02e916d0287815c33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91d5a2bf0c9f75e02e916d0287815c33">initialize_map</a> ()</td></tr>
+<tr class="memdesc:a91d5a2bf0c9f75e02e916d0287815c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicjalizuje mapę gry, rozmieszczając na niej ściany (stałe i zniszczalne) oraz puste pola.  <br /></td></tr>
+<tr class="memitem:aff1eaabee8697909f7a7a3cb9dd95246" id="r_aff1eaabee8697909f7a7a3cb9dd95246"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff1eaabee8697909f7a7a3cb9dd95246">hide_exit_randomly</a> ()</td></tr>
+<tr class="memdesc:aff1eaabee8697909f7a7a3cb9dd95246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ukrywa wyjście pod losowo wybraną zniszczalną ścianą na mapie.  <br /></td></tr>
+<tr class="memitem:af5e9609965bc94fe5f69def369209bce" id="r_af5e9609965bc94fe5f69def369209bce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5e9609965bc94fe5f69def369209bce">initialize_enemies</a> (int map[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>], <a class="el" href="struct_player.html">Player</a> *p_player)</td></tr>
+<tr class="memdesc:af5e9609965bc94fe5f69def369209bce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicjalizuje wrogów, rozmieszczając ich na mapie.  <br /></td></tr>
+<tr class="memitem:aa9225ab68675de8fe558808791583f7a" id="r_aa9225ab68675de8fe558808791583f7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9225ab68675de8fe558808791583f7a">find_and_set_player_spawn</a> (<a class="el" href="struct_player.html">Player</a> *p_player, int map[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>])</td></tr>
+<tr class="memdesc:aa9225ab68675de8fe558808791583f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Znajduje i ustawia bezpieczne miejsce startowe dla gracza na mapie.  <br /></td></tr>
+<tr class="memitem:aa0f25a123bcba60521f5cecfce23c376" id="r_aa0f25a123bcba60521f5cecfce23c376"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0f25a123bcba60521f5cecfce23c376">try_plant_bomb</a> (<a class="el" href="struct_player.html">Player</a> *p)</td></tr>
+<tr class="memdesc:aa0f25a123bcba60521f5cecfce23c376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Umożliwia graczowi podłożenie bomby.  <br /></td></tr>
+<tr class="memitem:acdd063f38723e2045c2fa04b6dae2cff" id="r_acdd063f38723e2045c2fa04b6dae2cff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdd063f38723e2045c2fa04b6dae2cff">setup_new_game</a> ()</td></tr>
+<tr class="memdesc:acdd063f38723e2045c2fa04b6dae2cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Przygotowuje nową grę, resetując stan wszystkich elementów gry.  <br /></td></tr>
+<tr class="memitem:a121aa867bb7f163c7f28a4556fc4f812" id="r_a121aa867bb7f163c7f28a4556fc4f812"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a121aa867bb7f163c7f28a4556fc4f812">obsluz_wejscie</a> (ALLEGRO_EVENT event, <a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *current_s)</td></tr>
+<tr class="memdesc:a121aa867bb7f163c7f28a4556fc4f812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obsługuje wejście z klawiatury.  <br /></td></tr>
+<tr class="memitem:a76dbfe0dc68c2489cf13781f7f5aedfb" id="r_a76dbfe0dc68c2489cf13781f7f5aedfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76dbfe0dc68c2489cf13781f7f5aedfb">aktualizuj_gre</a> (<a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_bomb.html">Bomb</a> bombs_arr[], <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], <a class="el" href="struct_powerup.html">Powerup</a> powerups_arr[], int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>], <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *current_s, bool *exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a76dbfe0dc68c2489cf13781f7f5aedfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Główna funkcja aktualizująca logikę gry.  <br /></td></tr>
+<tr class="memitem:a5a84b03db753f982d45756c0c7879abe" id="r_a5a84b03db753f982d45756c0c7879abe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a84b03db753f982d45756c0c7879abe">aktualizuj_nietykalnosc_gracza</a> (<a class="el" href="struct_player.html">Player</a> *p)</td></tr>
+<tr class="memdesc:a5a84b03db753f982d45756c0c7879abe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aktualizuje stan nietykalności gracza.  <br /></td></tr>
+<tr class="memitem:a9d5d7eb28b055ff07979b47b9b5de9da" id="r_a9d5d7eb28b055ff07979b47b9b5de9da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d5d7eb28b055ff07979b47b9b5de9da">aktualizuj_bomby</a> (<a class="el" href="struct_bomb.html">Bomb</a> bombs_arr[], <a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], <a class="el" href="struct_powerup.html">Powerup</a> powerups_arr[], int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>], <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *current_s, bool *exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a9d5d7eb28b055ff07979b47b9b5de9da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aktualizuje stan wszystkich bomb na mapie oraz obsługuje ich eksplozje.  <br /></td></tr>
+<tr class="memitem:a3ed175053d30adb7da08e18961e14a47" id="r_a3ed175053d30adb7da08e18961e14a47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ed175053d30adb7da08e18961e14a47">aktualizuj_wrogow</a> (<a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], <a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_bomb.html">Bomb</a> bombs_arr[], int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>], bool exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a3ed175053d30adb7da08e18961e14a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aktualizuje stan wrogów, zarządzając ich ruchem i zmianą kierunku.  <br /></td></tr>
+<tr class="memitem:affc522e82b4092296d58313cfab975ba" id="r_affc522e82b4092296d58313cfab975ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affc522e82b4092296d58313cfab975ba">sprawdz_kolizje_gracz_wrog</a> (<a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *current_s)</td></tr>
+<tr class="memdesc:affc522e82b4092296d58313cfab975ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza kolizję gracza z wrogami.  <br /></td></tr>
+<tr class="memitem:a1f05ed4e4438dfe8771cf59d0a0dcbaa" id="r_a1f05ed4e4438dfe8771cf59d0a0dcbaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f05ed4e4438dfe8771cf59d0a0dcbaa">sprawdz_warunek_wygranej</a> (<a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], bool exit_rev, int ex_x, int ex_y, <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *current_s)</td></tr>
+<tr class="memdesc:a1f05ed4e4438dfe8771cf59d0a0dcbaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza, czy warunki zwycięstwa zostały spełnione.  <br /></td></tr>
+<tr class="memitem:a5d4980fa75e17f879dd65ef8f5b74b0e" id="r_a5d4980fa75e17f879dd65ef8f5b74b0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d4980fa75e17f879dd65ef8f5b74b0e">rysuj_gre</a> (ALLEGRO_DISPLAY *display, <a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_bomb.html">Bomb</a> bombs_arr[], <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], <a class="el" href="struct_powerup.html">Powerup</a> powerups_arr[], int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>], <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> current_s, bool exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a5d4980fa75e17f879dd65ef8f5b74b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Główna funkcja rysująca całą grę.  <br /></td></tr>
+<tr class="memitem:aead85648d16662c0efca195838610096" id="r_aead85648d16662c0efca195838610096"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aead85648d16662c0efca195838610096">rysuj_ekran_startowy</a> (ALLEGRO_DISPLAY *display)</td></tr>
+<tr class="memdesc:aead85648d16662c0efca195838610096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje ekran startowy gry.  <br /></td></tr>
+<tr class="memitem:a58ebde6af1ce6a5f832ae0745e03818e" id="r_a58ebde6af1ce6a5f832ae0745e03818e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58ebde6af1ce6a5f832ae0745e03818e">rysuj_ekran_konca_gry</a> (ALLEGRO_DISPLAY *display, <a class="el" href="struct_player.html">Player</a> *p, <a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[], bool exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a58ebde6af1ce6a5f832ae0745e03818e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje ekran końca gry (informację o wygranej lub przegranej oraz wynik).  <br /></td></tr>
+<tr class="memitem:ad428f5f46fc2decddda6b243a8106a00" id="r_ad428f5f46fc2decddda6b243a8106a00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad428f5f46fc2decddda6b243a8106a00">rysuj_hud</a> (<a class="el" href="struct_player.html">Player</a> *p)</td></tr>
+<tr class="memdesc:ad428f5f46fc2decddda6b243a8106a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje interfejs użytkownika (HUD) na górze ekranu. Wyświetla informacje takie jak liczba żyć, wynik, liczba pozostałych wrogów, aktualna liczba bomb i moc eksplozji.  <br /></td></tr>
+<tr class="memitem:a7dbc863bccc52dde38d98ff0c7244e15" id="r_a7dbc863bccc52dde38d98ff0c7244e15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dbc863bccc52dde38d98ff0c7244e15">rysuj_mape</a> (int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>])</td></tr>
+<tr class="memdesc:a7dbc863bccc52dde38d98ff0c7244e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje kafelki mapy gry (ściany, puste pola).  <br /></td></tr>
+<tr class="memitem:a337a5f906b05440f0bbd1f8df874579a" id="r_a337a5f906b05440f0bbd1f8df874579a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a337a5f906b05440f0bbd1f8df874579a">rysuj_wyjscie</a> (bool exit_rev, int ex_x, int ex_y)</td></tr>
+<tr class="memdesc:a337a5f906b05440f0bbd1f8df874579a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje wyjście z poziomu, jeśli zostało odkryte.  <br /></td></tr>
+<tr class="memitem:abb09d9f855f15f6450c7e1e136d2a820" id="r_abb09d9f855f15f6450c7e1e136d2a820"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb09d9f855f15f6450c7e1e136d2a820">rysuj_powerupy</a> (<a class="el" href="struct_powerup.html">Powerup</a> powerups_arr[])</td></tr>
+<tr class="memdesc:abb09d9f855f15f6450c7e1e136d2a820"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje aktywne power-upy na mapie.  <br /></td></tr>
+<tr class="memitem:ae317d334f119bdc136f7e0d0571240e5" id="r_ae317d334f119bdc136f7e0d0571240e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae317d334f119bdc136f7e0d0571240e5">rysuj_bomby_i_eksplozje</a> (<a class="el" href="struct_bomb.html">Bomb</a> bombs_arr[], int game_map_arr[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>])</td></tr>
+<tr class="memdesc:ae317d334f119bdc136f7e0d0571240e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje bomby (tykające) oraz efekty ich eksplozji.  <br /></td></tr>
+<tr class="memitem:ad634ef8d16c277cf892ba3205a962659" id="r_ad634ef8d16c277cf892ba3205a962659"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad634ef8d16c277cf892ba3205a962659">rysuj_wrogow</a> (<a class="el" href="struct_enemy.html">Enemy</a> enemies_arr[])</td></tr>
+<tr class="memdesc:ad634ef8d16c277cf892ba3205a962659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje wrogów na mapie.  <br /></td></tr>
+<tr class="memitem:a769e627575de21d6a71fc0b9f46c71ed" id="r_a769e627575de21d6a71fc0b9f46c71ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a769e627575de21d6a71fc0b9f46c71ed">rysuj_gracza</a> (<a class="el" href="struct_player.html">Player</a> *p)</td></tr>
+<tr class="memdesc:a769e627575de21d6a71fc0b9f46c71ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rysuje gracza na mapie. Wybiera odpowiedni sprite w zależności od kierunku, w którym gracz jest zwrócony. Obsługuje również efekt migotania podczas nietykalności.  <br /></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Główna funkcja programu.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Zmienne</h2></td></tr>
+<tr class="memitem:ac1c96c751d869b6c919670f886f734ee" id="r_ac1c96c751d869b6c919670f886f734ee"><td class="memItemLeft" align="right" valign="top">ALLEGRO_FONT *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1c96c751d869b6c919670f886f734ee">font_main</a> = NULL</td></tr>
+<tr class="memitem:adad312233360ca637ac12b1c51b458fb" id="r_adad312233360ca637ac12b1c51b458fb"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adad312233360ca637ac12b1c51b458fb">player_sprite_front</a> = NULL</td></tr>
+<tr class="memitem:a7a2551316b77fbea922b621405e21563" id="r_a7a2551316b77fbea922b621405e21563"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a2551316b77fbea922b621405e21563">player_sprite_back</a> = NULL</td></tr>
+<tr class="memitem:ae65b23927f07edb586f48edb6d639f29" id="r_ae65b23927f07edb586f48edb6d639f29"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae65b23927f07edb586f48edb6d639f29">player_sprite_left</a> = NULL</td></tr>
+<tr class="memitem:a4e6e5bbbddf81404025e55d69db6c5c2" id="r_a4e6e5bbbddf81404025e55d69db6c5c2"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e6e5bbbddf81404025e55d69db6c5c2">player_sprite_right</a> = NULL</td></tr>
+<tr class="memitem:af2010767c286558776587c55ed927199" id="r_af2010767c286558776587c55ed927199"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2010767c286558776587c55ed927199">destructible_wall_sprite</a> = NULL</td></tr>
+<tr class="memitem:a3f2f6dd26ced2afe27705bc4e1b05e60" id="r_a3f2f6dd26ced2afe27705bc4e1b05e60"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f2f6dd26ced2afe27705bc4e1b05e60">dynamite_sprite</a> = NULL</td></tr>
+<tr class="memitem:a23578889e80423fa7a46c533149a39ab" id="r_a23578889e80423fa7a46c533149a39ab"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23578889e80423fa7a46c533149a39ab">sparks_sprite</a> = NULL</td></tr>
+<tr class="memitem:a8b85cfb2032cf34fbcb4bee2842c3030" id="r_a8b85cfb2032cf34fbcb4bee2842c3030"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b85cfb2032cf34fbcb4bee2842c3030">exit_sprite</a> = NULL</td></tr>
+<tr class="memitem:a701b3112b6950dfbb231e71ca126de1e" id="r_a701b3112b6950dfbb231e71ca126de1e"><td class="memItemLeft" align="right" valign="top">ALLEGRO_SAMPLE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a701b3112b6950dfbb231e71ca126de1e">background_music_sample</a> = NULL</td></tr>
+<tr class="memitem:adf596cd6647aee4fffa4cb0d4cdff13e" id="r_adf596cd6647aee4fffa4cb0d4cdff13e"><td class="memItemLeft" align="right" valign="top">ALLEGRO_SAMPLE_INSTANCE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf596cd6647aee4fffa4cb0d4cdff13e">background_music_instance</a> = NULL</td></tr>
+<tr class="memitem:aacac1b826495bfab7f147becc245e071" id="r_aacac1b826495bfab7f147becc245e071"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacac1b826495bfab7f147becc245e071">current_game_state</a> = <a class="el" href="#a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d">START_SCREEN</a></td></tr>
+<tr class="memitem:a5578442946f6e26c17e6f7e5f3b4cc63" id="r_a5578442946f6e26c17e6f7e5f3b4cc63"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5578442946f6e26c17e6f7e5f3b4cc63">game_map</a> [<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>]</td></tr>
+<tr class="memitem:ada4b633ecd8c11a9b0a9d91347f8ccff" id="r_ada4b633ecd8c11a9b0a9d91347f8ccff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada4b633ecd8c11a9b0a9d91347f8ccff">exit_x</a> = -1</td></tr>
+<tr class="memitem:af106871dd79d268d74ac02a47ccdf689" id="r_af106871dd79d268d74ac02a47ccdf689"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af106871dd79d268d74ac02a47ccdf689">exit_y</a> = -1</td></tr>
+<tr class="memitem:a67afaaa24decd15326d0b5a7b4857db4" id="r_a67afaaa24decd15326d0b5a7b4857db4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67afaaa24decd15326d0b5a7b4857db4">exit_revealed</a> = false</td></tr>
+<tr class="memitem:af61d6983a9396a11078805087518af88" id="r_af61d6983a9396a11078805087518af88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_player.html">Player</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af61d6983a9396a11078805087518af88">player</a></td></tr>
+<tr class="memitem:aa77cdda066ee8dc7d7deca04003842b1" id="r_aa77cdda066ee8dc7d7deca04003842b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_enemy.html">Enemy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa77cdda066ee8dc7d7deca04003842b1">enemies</a> [<a class="el" href="#a544651f3405cff79c40d898a8e54f507">MAX_ENEMIES</a>]</td></tr>
+<tr class="memitem:a190946727866ecc9f54b406c2c7e91fd" id="r_a190946727866ecc9f54b406c2c7e91fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_powerup.html">Powerup</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a190946727866ecc9f54b406c2c7e91fd">powerups</a> [<a class="el" href="#a5b4072f66deed0b4ee1f710541cd75b5">MAX_POWERUPS</a>]</td></tr>
+<tr class="memitem:a84cb04e70d076742d55818063d81e1cb" id="r_a84cb04e70d076742d55818063d81e1cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_bomb.html">Bomb</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84cb04e70d076742d55818063d81e1cb">bombs</a> [<a class="el" href="#ad3e1766beee573ff7fd0798c4db63217">MAX_BOMBS</a>]</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Opis szczegółowy</h2>
+<div class="textblock"><p>Prosta implementacja gry Bomberman przy użyciu biblioteki Allegro 5. </p>
+<ul>
+<li>Gra zawiera podstawowe mechaniki takie jak ruch gracza, podkładanie bomb, niszczenie ścian, zbieranie power-upów, walkę z wrogami oraz system punktacji. Celem gry jest pokonanie wszystkich wrogów i znalezienie ukrytego wyjścia. </li>
+</ul>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Dokumentacja definicji</h2>
+<a id="a23166ed7c1baea0fae1efccdf0d3c5c0" name="a23166ed7c1baea0fae1efccdf0d3c5c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23166ed7c1baea0fae1efccdf0d3c5c0">&#9670;&#160;</a></span>BOMB_TIMER_DURATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOMB_TIMER_DURATION&#160;&#160;&#160;120</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21b68313576e8c163c52a7bfe279dd7b" name="a21b68313576e8c163c52a7bfe279dd7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21b68313576e8c163c52a7bfe279dd7b">&#9670;&#160;</a></span>ENEMY_MOVE_DELAY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENEMY_MOVE_DELAY&#160;&#160;&#160;30</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aedfb1ad430a057b1a0021f1b1d865029" name="aedfb1ad430a057b1a0021f1b1d865029"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedfb1ad430a057b1a0021f1b1d865029">&#9670;&#160;</a></span>EXPLOSION_DURATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPLOSION_DURATION&#160;&#160;&#160;30</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a95793714d3abbdf0175f42c34590c9f4" name="a95793714d3abbdf0175f42c34590c9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95793714d3abbdf0175f42c34590c9f4">&#9670;&#160;</a></span>HUD_HEIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUD_HEIGHT&#160;&#160;&#160;(<a class="el" href="#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a> * 2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe5428883c7d18a4f1d24d03a6b1f4b9" name="abe5428883c7d18a4f1d24d03a6b1f4b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe5428883c7d18a4f1d24d03a6b1f4b9">&#9670;&#160;</a></span>INVINCIBILITY_DURATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define INVINCIBILITY_DURATION&#160;&#160;&#160;120</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a529d5ebb449edf31d9835d13f4fb9f89" name="a529d5ebb449edf31d9835d13f4fb9f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529d5ebb449edf31d9835d13f4fb9f89">&#9670;&#160;</a></span>MAP_HEIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAP_HEIGHT&#160;&#160;&#160;13</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa037a6d6a4f04d51c7ec1c9ee9054e76" name="aa037a6d6a4f04d51c7ec1c9ee9054e76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">&#9670;&#160;</a></span>MAP_WIDTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAP_WIDTH&#160;&#160;&#160;15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad3e1766beee573ff7fd0798c4db63217" name="ad3e1766beee573ff7fd0798c4db63217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3e1766beee573ff7fd0798c4db63217">&#9670;&#160;</a></span>MAX_BOMBS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_BOMBS&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a544651f3405cff79c40d898a8e54f507" name="a544651f3405cff79c40d898a8e54f507"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a544651f3405cff79c40d898a8e54f507">&#9670;&#160;</a></span>MAX_ENEMIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_ENEMIES&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f9c1f0853e65daabe0a7c6005104eb6" name="a2f9c1f0853e65daabe0a7c6005104eb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f9c1f0853e65daabe0a7c6005104eb6">&#9670;&#160;</a></span>MAX_EXPLOSION_CELLS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_EXPLOSION_CELLS&#160;&#160;&#160;(1 + 4 * 7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b4072f66deed0b4ee1f710541cd75b5" name="a5b4072f66deed0b4ee1f710541cd75b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b4072f66deed0b4ee1f710541cd75b5">&#9670;&#160;</a></span>MAX_POWERUPS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_POWERUPS&#160;&#160;&#160;(<a class="el" href="#a544651f3405cff79c40d898a8e54f507">MAX_ENEMIES</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4515ae79265da8c38a8514e970b996c2" name="a4515ae79265da8c38a8514e970b996c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4515ae79265da8c38a8514e970b996c2">&#9670;&#160;</a></span>PLAYER_MAX_LIVES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PLAYER_MAX_LIVES&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d1c8fd6238c810d40c207d53b252bdb" name="a2d1c8fd6238c810d40c207d53b252bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1c8fd6238c810d40c207d53b252bdb">&#9670;&#160;</a></span>POINTS_PER_ENEMY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define POINTS_PER_ENEMY&#160;&#160;&#160;100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21ef4bc744f7b5c867145c23bfa7831f" name="a21ef4bc744f7b5c867145c23bfa7831f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21ef4bc744f7b5c867145c23bfa7831f">&#9670;&#160;</a></span>POINTS_PER_WALL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define POINTS_PER_WALL&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaef3fa43246a96e4c8b993073166dc29" name="aaef3fa43246a96e4c8b993073166dc29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef3fa43246a96e4c8b993073166dc29">&#9670;&#160;</a></span>POWERUP_DROP_CHANCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define POWERUP_DROP_CHANCE&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a62ecd70800687eb2d625af180c4210d7" name="a62ecd70800687eb2d625af180c4210d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62ecd70800687eb2d625af180c4210d7">&#9670;&#160;</a></span>TILE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TILE_SIZE&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Dokumentacja typów wyliczanych</h2>
+<a id="a3df0363c6b7a640317faf210de59f7f0" name="a3df0363c6b7a640317faf210de59f7f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3df0363c6b7a640317faf210de59f7f0">&#9670;&#160;</a></span>ENEMY_DIRECTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a3df0363c6b7a640317faf210de59f7f0">ENEMY_DIRECTION</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Kierunki, w których mogą poruszać się wrogowie. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><a id="a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b" name="a3df0363c6b7a640317faf210de59f7f0a0b76fb863426c07c6c997a8d9523257b"></a>DIR_UP&#160;</td><td class="fielddoc"><p>Ruch w górę. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d" name="a3df0363c6b7a640317faf210de59f7f0ab1bf68da897d09488069dd40e54f442d"></a>DIR_DOWN&#160;</td><td class="fielddoc"><p>Ruch w dół. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660" name="a3df0363c6b7a640317faf210de59f7f0a1307dc42d06472935155dcbe283bc660"></a>DIR_LEFT&#160;</td><td class="fielddoc"><p>Ruch w lewo. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8" name="a3df0363c6b7a640317faf210de59f7f0a5dd21ef3d450f62c44082756cab8f6f8"></a>DIR_RIGHT&#160;</td><td class="fielddoc"><p>Ruch w prawo. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8" name="a3df0363c6b7a640317faf210de59f7f0a781e2253025da812fd98723fa23b60c8"></a>DIR_COUNT&#160;</td><td class="fielddoc"><p>Liczba możliwych kierunków (używane do losowania). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a4cc39f049df62b331976f9a4482bd3ea" name="a4cc39f049df62b331976f9a4482bd3ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc39f049df62b331976f9a4482bd3ea">&#9670;&#160;</a></span>GAME_STATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Możliwe stany, w jakich może znajdować się gra. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><a id="a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d" name="a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d"></a>START_SCREEN&#160;</td><td class="fielddoc"><p>Ekran startowy gry. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8" name="a4cc39f049df62b331976f9a4482bd3eaaf095245f5cebc27a97a124345269fed8"></a>PLAYING&#160;</td><td class="fielddoc"><p>Gra jest w toku. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00" name="a4cc39f049df62b331976f9a4482bd3eaa871723195985a4ae22d7e10d99bf8a00"></a>GAME_OVER&#160;</td><td class="fielddoc"><p>Gra zakończona (wygrana lub przegrana). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="af22f6280558a007d9f070a8009df3f05" name="af22f6280558a007d9f070a8009df3f05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af22f6280558a007d9f070a8009df3f05">&#9670;&#160;</a></span>PLAYER_DIRECTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#af22f6280558a007d9f070a8009df3f05">PLAYER_DIRECTION</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Kierunki, w które może być zwrócony gracz. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><a id="af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40" name="af22f6280558a007d9f070a8009df3f05add57321a42c94d271327c732a831fa40"></a>PLAYER_DIR_DOWN&#160;</td><td class="fielddoc"><p>Gracz zwrócony w dół. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7" name="af22f6280558a007d9f070a8009df3f05a7452c0a776e9c87698a461714ffb48b7"></a>PLAYER_DIR_UP&#160;</td><td class="fielddoc"><p>Gracz zwrócony w górę. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec" name="af22f6280558a007d9f070a8009df3f05a5bc2a644477f47140389ef00ba418aec"></a>PLAYER_DIR_LEFT&#160;</td><td class="fielddoc"><p>Gracz zwrócony w lewo. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45" name="af22f6280558a007d9f070a8009df3f05ab071e804dc05307b7508a637fa57ce45"></a>PLAYER_DIR_RIGHT&#160;</td><td class="fielddoc"><p>Gracz zwrócony w prawo. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="abf05cc2963762f410c5312552281cb13" name="abf05cc2963762f410c5312552281cb13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf05cc2963762f410c5312552281cb13">&#9670;&#160;</a></span>POWERUP_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#abf05cc2963762f410c5312552281cb13">POWERUP_TYPE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Typy dostępnych power-upów w grze. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><a id="abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5" name="abf05cc2963762f410c5312552281cb13aabbc134dddde55d7a8193b43669923e5"></a>POWERUP_BOMB_CAP&#160;</td><td class="fielddoc"><p>Power-up zwiększający maksymalną liczbę bomb. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f" name="abf05cc2963762f410c5312552281cb13ad5d62b10cc1cd935644c4e27bb52660f"></a>POWERUP_RADIUS_INC&#160;</td><td class="fielddoc"><p>Power-up zwiększający promień rażenia bomb. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2" name="abf05cc2963762f410c5312552281cb13a87f3b0d26e6ad91e53b1d8981d684fb2"></a>POWERUP_EXTRA_LIFE&#160;</td><td class="fielddoc"><p>Power-up dający dodatkowe życie. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60" name="abf05cc2963762f410c5312552281cb13a3080a4d3432ce0cca2776d8c2c573a60"></a>POWERUP_TYPE_COUNT&#160;</td><td class="fielddoc"><p>Liczba dostępnych typów power-upów. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a9ab18d581d866bc511f37af5dee04390" name="a9ab18d581d866bc511f37af5dee04390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab18d581d866bc511f37af5dee04390">&#9670;&#160;</a></span>TILE_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a9ab18d581d866bc511f37af5dee04390">TILE_TYPE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Typy kafelków, z których może składać się mapa gry. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><a id="a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d" name="a9ab18d581d866bc511f37af5dee04390a2f0d18fc0d0fa4a6cd92dc328501874d"></a>EMPTY&#160;</td><td class="fielddoc"><p>Puste pole, po którym można się poruszać. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d" name="a9ab18d581d866bc511f37af5dee04390aa4b15bb3ff6b5178d4bba6fbd37b352d"></a>SOLID_WALL&#160;</td><td class="fielddoc"><p>Niezniszczalna ściana, blokująca ruch i eksplozje. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0" name="a9ab18d581d866bc511f37af5dee04390ad15fc9a45244dd7516fb7e85d98dc7c0"></a>DESTRUCTIBLE_WALL&#160;</td><td class="fielddoc"><p>Zniszczalna ściana (pudełko), którą można zniszczyć bombą. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Dokumentacja funkcji</h2>
+<a id="a9d5d7eb28b055ff07979b47b9b5de9da" name="a9d5d7eb28b055ff07979b47b9b5de9da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d5d7eb28b055ff07979b47b9b5de9da">&#9670;&#160;</a></span>aktualizuj_bomby()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void aktualizuj_bomby </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_bomb.html">Bomb</a></td>          <td class="paramname"><span class="paramname"><em>bombs_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_powerup.html">Powerup</a></td>          <td class="paramname"><span class="paramname"><em>powerups_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *</td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool *</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aktualizuje stan wszystkich bomb na mapie oraz obsługuje ich eksplozje. </p>
+<ul>
+<li>Dla każdej aktywnej bomby dekrementuje jej timer. Jeśli timer osiągnie zero, bomba wybucha. Funkcja oblicza zasięg eksplozji, niszczy zniszczalne ściany (przyznając punkty i potencjalnie odkrywając wyjście), zadaje obrażenia graczowi i wrogom oraz obsługuje wypadanie power-upów z pokonanych wrogów. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bombs_arr</td><td>Tablica bomb. </td></tr>
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">powerups_arr</td><td>Tablica power-upów. </td></tr>
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Wskaźnik do aktualnego stanu gry. </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Wskaźnik do flagi odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a76dbfe0dc68c2489cf13781f7f5aedfb" name="a76dbfe0dc68c2489cf13781f7f5aedfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76dbfe0dc68c2489cf13781f7f5aedfb">&#9670;&#160;</a></span>aktualizuj_gre()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void aktualizuj_gre </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_bomb.html">Bomb</a></td>          <td class="paramname"><span class="paramname"><em>bombs_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_powerup.html">Powerup</a></td>          <td class="paramname"><span class="paramname"><em>powerups_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *</td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool *</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Główna funkcja aktualizująca logikę gry. </p>
+<ul>
+<li>Wywoływana w każdej klatce gry (jeśli stan gry to PLAYING). Odpowiada za aktualizację stanu nietykalności gracza, bomb, wrogów oraz sprawdzanie kolizji i warunków zwycięstwa. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">bombs_arr</td><td>Tablica bomb. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">powerups_arr</td><td>Tablica power-upów. </td></tr>
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Wskaźnik do aktualnego stanu gry. </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Wskaźnik do flagi odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a5a84b03db753f982d45756c0c7879abe" name="a5a84b03db753f982d45756c0c7879abe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a84b03db753f982d45756c0c7879abe">&#9670;&#160;</a></span>aktualizuj_nietykalnosc_gracza()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void aktualizuj_nietykalnosc_gracza </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aktualizuje stan nietykalności gracza. </p>
+<ul>
+<li>Jeśli gracz jest nietykalny, dekrementuje licznik nietykalności. Gdy licznik osiągnie zero, nietykalność jest wyłączana. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a3ed175053d30adb7da08e18961e14a47" name="a3ed175053d30adb7da08e18961e14a47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed175053d30adb7da08e18961e14a47">&#9670;&#160;</a></span>aktualizuj_wrogow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void aktualizuj_wrogow </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_bomb.html">Bomb</a></td>          <td class="paramname"><span class="paramname"><em>bombs_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aktualizuje stan wrogów, zarządzając ich ruchem i zmianą kierunku. </p>
+<ul>
+<li>Dla każdego żywego wroga dekrementuje licznik ruchu. Gdy licznik osiągnie zero, wróg próbuje się poruszyć w aktualnym kierunku. Jeśli ruch jest zablokowany (przez ścianę, bombę, innego wroga lub odkryte wyjście), wróg próbuje zmienić kierunek. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza (nieużywany bezpośrednio w tej funkcji, ale może być potrzebny w przyszłości). </td></tr>
+    <tr><td class="paramname">bombs_arr</td><td>Tablica bomb (do sprawdzania kolizji). </td></tr>
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry. </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Flaga odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="aa9225ab68675de8fe558808791583f7a" name="aa9225ab68675de8fe558808791583f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9225ab68675de8fe558808791583f7a">&#9670;&#160;</a></span>find_and_set_player_spawn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void find_and_set_player_spawn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p_player</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>map</em></span>[MAP_HEIGHT][MAP_WIDTH]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Znajduje i ustawia bezpieczne miejsce startowe dla gracza na mapie. </p>
+<ul>
+<li>Funkcja najpierw próbuje umieścić gracza w jednym z preferowanych rogów mapy, upewniając się, że sąsiednie pola są puste. Jeśli to się nie uda, szuka dowolnego pustego pola z dwoma wolnymi sąsiadami. W ostateczności wybiera dowolne puste pole lub wymusza puste pole na (1,1). <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p_player</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">map</td><td>Tablica reprezentująca mapę gry. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="aff1eaabee8697909f7a7a3cb9dd95246" name="aff1eaabee8697909f7a7a3cb9dd95246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1eaabee8697909f7a7a3cb9dd95246">&#9670;&#160;</a></span>hide_exit_randomly()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hide_exit_randomly </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ukrywa wyjście pod losowo wybraną zniszczalną ścianą na mapie. </p>
+<ul>
+<li>Funkcja przeszukuje mapę w poszukiwaniu wszystkich kafelków typu DESTRUCTIBLE_WALL. Następnie, jeśli takie kafelki istnieją, losowo wybiera jeden z nich i ustawia globalne zmienne <span class="tt">exit_x</span> oraz <span class="tt">exit_y</span> na jego współrzędne. Flaga <span class="tt">exit_revealed</span> jest ustawiana na <span class="tt">false</span>. </li>
+</ul>
+
+</div>
+</div>
+<a id="af5e9609965bc94fe5f69def369209bce" name="af5e9609965bc94fe5f69def369209bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5e9609965bc94fe5f69def369209bce">&#9670;&#160;</a></span>initialize_enemies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void initialize_enemies </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>map</em></span>[MAP_HEIGHT][MAP_WIDTH], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p_player</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inicjalizuje wrogów, rozmieszczając ich na mapie. </p>
+<ul>
+<li>Dla każdego wroga losuje pozycję na pustym polu, upewniając się, że nie jest to miejsce startowe gracza, ukryte wyjście, ani pozycja innego, już umieszczonego wroga. Wrogowie nie powinni również pojawiać się zbyt blisko gracza na starcie. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">map</td><td>Tablica reprezentująca mapę gry. </td></tr>
+    <tr><td class="paramname">p_player</td><td>Wskaźnik do struktury gracza. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a91d5a2bf0c9f75e02e916d0287815c33" name="a91d5a2bf0c9f75e02e916d0287815c33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91d5a2bf0c9f75e02e916d0287815c33">&#9670;&#160;</a></span>initialize_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void initialize_map </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inicjalizuje mapę gry, rozmieszczając na niej ściany (stałe i zniszczalne) oraz puste pola. </p>
+<ul>
+<li>Tworzy obramowanie z niezniszczalnych ścian, rozmieszcza niezniszczalne bloki wewnątrz mapy (wzorzec szachownicy) oraz losowo umieszcza zniszczalne ściany i puste pola. Gwarantuje również puste miejsca dla startu gracza. </li>
+</ul>
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Główna funkcja programu. </p>
+<ul>
+<li>Odpowiada za inicjalizację biblioteki Allegro i jej dodatków, ładowanie zasobów, tworzenie okna, timera i kolejki zdarzeń. Zawiera główną pętlę gry, która obsługuje zdarzenia, aktualizuje logikę gry i rysuje klatki. Na końcu zwalnia wszystkie zaalokowane zasoby. <dl class="section return"><dt>Zwraca</dt><dd>Zwraca 0 w przypadku pomyślnego zakończenia, lub wartość ujemną w przypadku błędu. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a121aa867bb7f163c7f28a4556fc4f812" name="a121aa867bb7f163c7f28a4556fc4f812"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a121aa867bb7f163c7f28a4556fc4f812">&#9670;&#160;</a></span>obsluz_wejscie()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void obsluz_wejscie </td>
+          <td>(</td>
+          <td class="paramtype">ALLEGRO_EVENT</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *</td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obsługuje wejście z klawiatury. </p>
+<ul>
+<li>Reaguje na wciśnięcia klawiszy w zależności od aktualnego stanu gry (START_SCREEN, PLAYING, GAME_OVER). Umożliwia ruch gracza, podkładanie bomb oraz nawigację w menu. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>Zdarzenie Allegro (oczekiwane jest zdarzenie klawiatury). </td></tr>
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Wskaźnik do aktualnego stanu gry. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="ae317d334f119bdc136f7e0d0571240e5" name="ae317d334f119bdc136f7e0d0571240e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae317d334f119bdc136f7e0d0571240e5">&#9670;&#160;</a></span>rysuj_bomby_i_eksplozje()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_bomby_i_eksplozje </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_bomb.html">Bomb</a></td>          <td class="paramname"><span class="paramname"><em>bombs_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje bomby (tykające) oraz efekty ich eksplozji. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bombs_arr</td><td>Tablica bomb. </td></tr>
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry (do sprawdzania, czy nie rysować eksplozji na ścianach). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a58ebde6af1ce6a5f832ae0745e03818e" name="a58ebde6af1ce6a5f832ae0745e03818e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ebde6af1ce6a5f832ae0745e03818e">&#9670;&#160;</a></span>rysuj_ekran_konca_gry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_ekran_konca_gry </td>
+          <td>(</td>
+          <td class="paramtype">ALLEGRO_DISPLAY *</td>          <td class="paramname"><span class="paramname"><em>display</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje ekran końca gry (informację o wygranej lub przegranej oraz wynik). </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">display</td><td>Wskaźnik do ekranu Allegro. </td></tr>
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów (do sprawdzenia warunku wygranej). </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Flaga odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aead85648d16662c0efca195838610096" name="aead85648d16662c0efca195838610096"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aead85648d16662c0efca195838610096">&#9670;&#160;</a></span>rysuj_ekran_startowy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_ekran_startowy </td>
+          <td>(</td>
+          <td class="paramtype">ALLEGRO_DISPLAY *</td>          <td class="paramname"><span class="paramname"><em>display</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje ekran startowy gry. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">display</td><td>Wskaźnik do ekranu Allegro. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a769e627575de21d6a71fc0b9f46c71ed" name="a769e627575de21d6a71fc0b9f46c71ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a769e627575de21d6a71fc0b9f46c71ed">&#9670;&#160;</a></span>rysuj_gracza()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_gracza </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje gracza na mapie. Wybiera odpowiedni sprite w zależności od kierunku, w którym gracz jest zwrócony. Obsługuje również efekt migotania podczas nietykalności. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5d4980fa75e17f879dd65ef8f5b74b0e" name="a5d4980fa75e17f879dd65ef8f5b74b0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d4980fa75e17f879dd65ef8f5b74b0e">&#9670;&#160;</a></span>rysuj_gre()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_gre </td>
+          <td>(</td>
+          <td class="paramtype">ALLEGRO_DISPLAY *</td>          <td class="paramname"><span class="paramname"><em>display</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_bomb.html">Bomb</a></td>          <td class="paramname"><span class="paramname"><em>bombs_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_powerup.html">Powerup</a></td>          <td class="paramname"><span class="paramname"><em>powerups_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a></td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Główna funkcja rysująca całą grę. </p>
+<ul>
+<li>W zależności od aktualnego stanu gry, wywołuje odpowiednie funkcje rysujące poszczególne elementy (ekran startowy, HUD, mapę, obiekty, gracza, ekran końca gry). Na końcu odświeża ekran. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">display</td><td>Wskaźnik do ekranu Allegro. </td></tr>
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">bombs_arr</td><td>Tablica bomb. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">powerups_arr</td><td>Tablica power-upów. </td></tr>
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Aktualny stan gry. </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Flaga odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="ad428f5f46fc2decddda6b243a8106a00" name="ad428f5f46fc2decddda6b243a8106a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad428f5f46fc2decddda6b243a8106a00">&#9670;&#160;</a></span>rysuj_hud()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_hud </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje interfejs użytkownika (HUD) na górze ekranu. Wyświetla informacje takie jak liczba żyć, wynik, liczba pozostałych wrogów, aktualna liczba bomb i moc eksplozji. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7dbc863bccc52dde38d98ff0c7244e15" name="a7dbc863bccc52dde38d98ff0c7244e15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dbc863bccc52dde38d98ff0c7244e15">&#9670;&#160;</a></span>rysuj_mape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_mape </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>game_map_arr</em></span>[MAP_HEIGHT][MAP_WIDTH]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje kafelki mapy gry (ściany, puste pola). </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">game_map_arr</td><td>Tablica mapy gry. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abb09d9f855f15f6450c7e1e136d2a820" name="abb09d9f855f15f6450c7e1e136d2a820"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb09d9f855f15f6450c7e1e136d2a820">&#9670;&#160;</a></span>rysuj_powerupy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_powerupy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_powerup.html">Powerup</a></td>          <td class="paramname"><span class="paramname"><em>powerups_arr</em></span>[]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje aktywne power-upy na mapie. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">powerups_arr</td><td>Tablica power-upów. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad634ef8d16c277cf892ba3205a962659" name="ad634ef8d16c277cf892ba3205a962659"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad634ef8d16c277cf892ba3205a962659">&#9670;&#160;</a></span>rysuj_wrogow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_wrogow </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje wrogów na mapie. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a337a5f906b05440f0bbd1f8df874579a" name="a337a5f906b05440f0bbd1f8df874579a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a337a5f906b05440f0bbd1f8df874579a">&#9670;&#160;</a></span>rysuj_wyjscie()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rysuj_wyjscie </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rysuje wyjście z poziomu, jeśli zostało odkryte. </p>
+<ul>
+<li>Jeśli dostępny jest sprite wyjścia (<span class="tt">exit_sprite</span>), używa go. W przeciwnym razie rysuje domyślny, pulsujący efekt portalu. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">exit_rev</td><td>Flaga wskazująca, czy wyjście jest odkryte. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="acdd063f38723e2045c2fa04b6dae2cff" name="acdd063f38723e2045c2fa04b6dae2cff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd063f38723e2045c2fa04b6dae2cff">&#9670;&#160;</a></span>setup_new_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setup_new_game </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Przygotowuje nową grę, resetując stan wszystkich elementów gry. </p>
+<ul>
+<li>Wywołuje funkcje inicjalizujące mapę, wyjście, gracza i wrogów. Resetuje również stan bomb i power-upów oraz uruchamia muzykę w tle. </li>
+</ul>
+
+</div>
+</div>
+<a id="affc522e82b4092296d58313cfab975ba" name="affc522e82b4092296d58313cfab975ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affc522e82b4092296d58313cfab975ba">&#9670;&#160;</a></span>sprawdz_kolizje_gracz_wrog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprawdz_kolizje_gracz_wrog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *</td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sprawdza kolizję gracza z wrogami. </p>
+<ul>
+<li>Jeśli gracz nie jest nietykalny i wejdzie na pole zajmowane przez żywego wroga, traci życie. Jeśli liczba żyć spadnie do zera, gra się kończy. Po kolizji gracz staje się na chwilę nietykalny. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Wskaźnik do aktualnego stanu gry. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a1f05ed4e4438dfe8771cf59d0a0dcbaa" name="a1f05ed4e4438dfe8771cf59d0a0dcbaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f05ed4e4438dfe8771cf59d0a0dcbaa">&#9670;&#160;</a></span>sprawdz_warunek_wygranej()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprawdz_warunek_wygranej </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a></td>          <td class="paramname"><span class="paramname"><em>enemies_arr</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exit_rev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ex_y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> *</td>          <td class="paramname"><span class="paramname"><em>current_s</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sprawdza, czy warunki zwycięstwa zostały spełnione. </p>
+<ul>
+<li>Warunki zwycięstwa: gracz żyje, wszyscy wrogowie są pokonani, wyjście jest odkryte, a gracz znajduje się na polu wyjścia. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+    <tr><td class="paramname">enemies_arr</td><td>Tablica wrogów. </td></tr>
+    <tr><td class="paramname">exit_rev</td><td>Flaga odkrycia wyjścia. </td></tr>
+    <tr><td class="paramname">ex_x</td><td>Współrzędna X wyjścia. </td></tr>
+    <tr><td class="paramname">ex_y</td><td>Współrzędna Y wyjścia. </td></tr>
+    <tr><td class="paramname">current_s</td><td>Wskaźnik do aktualnego stanu gry. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="aa0f25a123bcba60521f5cecfce23c376" name="aa0f25a123bcba60521f5cecfce23c376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0f25a123bcba60521f5cecfce23c376">&#9670;&#160;</a></span>try_plant_bomb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void try_plant_bomb </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Umożliwia graczowi podłożenie bomby. </p>
+<ul>
+<li>Sprawdza, czy gracz nie przekroczył swojego limitu aktywnych bomb oraz czy na danym polu nie znajduje się już inna bomba. Jeśli warunki są spełnione, nowa bomba jest aktywowana na pozycji gracza. <dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik do struktury gracza. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Dokumentacja zmiennych</h2>
+<a id="adf596cd6647aee4fffa4cb0d4cdff13e" name="adf596cd6647aee4fffa4cb0d4cdff13e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf596cd6647aee4fffa4cb0d4cdff13e">&#9670;&#160;</a></span>background_music_instance</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_SAMPLE_INSTANCE* background_music_instance = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a701b3112b6950dfbb231e71ca126de1e" name="a701b3112b6950dfbb231e71ca126de1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a701b3112b6950dfbb231e71ca126de1e">&#9670;&#160;</a></span>background_music_sample</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_SAMPLE* background_music_sample = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84cb04e70d076742d55818063d81e1cb" name="a84cb04e70d076742d55818063d81e1cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84cb04e70d076742d55818063d81e1cb">&#9670;&#160;</a></span>bombs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_bomb.html">Bomb</a> bombs[<a class="el" href="#ad3e1766beee573ff7fd0798c4db63217">MAX_BOMBS</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacac1b826495bfab7f147becc245e071" name="aacac1b826495bfab7f147becc245e071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacac1b826495bfab7f147becc245e071">&#9670;&#160;</a></span>current_game_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a4cc39f049df62b331976f9a4482bd3ea">GAME_STATE</a> current_game_state = <a class="el" href="#a4cc39f049df62b331976f9a4482bd3eaa90cbc17b9276481d862d7dd69729045d">START_SCREEN</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2010767c286558776587c55ed927199" name="af2010767c286558776587c55ed927199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2010767c286558776587c55ed927199">&#9670;&#160;</a></span>destructible_wall_sprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* destructible_wall_sprite = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f2f6dd26ced2afe27705bc4e1b05e60" name="a3f2f6dd26ced2afe27705bc4e1b05e60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f2f6dd26ced2afe27705bc4e1b05e60">&#9670;&#160;</a></span>dynamite_sprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* dynamite_sprite = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa77cdda066ee8dc7d7deca04003842b1" name="aa77cdda066ee8dc7d7deca04003842b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa77cdda066ee8dc7d7deca04003842b1">&#9670;&#160;</a></span>enemies</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_enemy.html">Enemy</a> enemies[<a class="el" href="#a544651f3405cff79c40d898a8e54f507">MAX_ENEMIES</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67afaaa24decd15326d0b5a7b4857db4" name="a67afaaa24decd15326d0b5a7b4857db4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67afaaa24decd15326d0b5a7b4857db4">&#9670;&#160;</a></span>exit_revealed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool exit_revealed = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b85cfb2032cf34fbcb4bee2842c3030" name="a8b85cfb2032cf34fbcb4bee2842c3030"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b85cfb2032cf34fbcb4bee2842c3030">&#9670;&#160;</a></span>exit_sprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* exit_sprite = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada4b633ecd8c11a9b0a9d91347f8ccff" name="ada4b633ecd8c11a9b0a9d91347f8ccff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada4b633ecd8c11a9b0a9d91347f8ccff">&#9670;&#160;</a></span>exit_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exit_x = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af106871dd79d268d74ac02a47ccdf689" name="af106871dd79d268d74ac02a47ccdf689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af106871dd79d268d74ac02a47ccdf689">&#9670;&#160;</a></span>exit_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exit_y = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1c96c751d869b6c919670f886f734ee" name="ac1c96c751d869b6c919670f886f734ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1c96c751d869b6c919670f886f734ee">&#9670;&#160;</a></span>font_main</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_FONT* font_main = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5578442946f6e26c17e6f7e5f3b4cc63" name="a5578442946f6e26c17e6f7e5f3b4cc63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5578442946f6e26c17e6f7e5f3b4cc63">&#9670;&#160;</a></span>game_map</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int game_map[<a class="el" href="#a529d5ebb449edf31d9835d13f4fb9f89">MAP_HEIGHT</a>][<a class="el" href="#aa037a6d6a4f04d51c7ec1c9ee9054e76">MAP_WIDTH</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af61d6983a9396a11078805087518af88" name="af61d6983a9396a11078805087518af88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af61d6983a9396a11078805087518af88">&#9670;&#160;</a></span>player</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_player.html">Player</a> player</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a2551316b77fbea922b621405e21563" name="a7a2551316b77fbea922b621405e21563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a2551316b77fbea922b621405e21563">&#9670;&#160;</a></span>player_sprite_back</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* player_sprite_back = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adad312233360ca637ac12b1c51b458fb" name="adad312233360ca637ac12b1c51b458fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adad312233360ca637ac12b1c51b458fb">&#9670;&#160;</a></span>player_sprite_front</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* player_sprite_front = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae65b23927f07edb586f48edb6d639f29" name="ae65b23927f07edb586f48edb6d639f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae65b23927f07edb586f48edb6d639f29">&#9670;&#160;</a></span>player_sprite_left</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* player_sprite_left = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e6e5bbbddf81404025e55d69db6c5c2" name="a4e6e5bbbddf81404025e55d69db6c5c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e6e5bbbddf81404025e55d69db6c5c2">&#9670;&#160;</a></span>player_sprite_right</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* player_sprite_right = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a190946727866ecc9f54b406c2c7e91fd" name="a190946727866ecc9f54b406c2c7e91fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a190946727866ecc9f54b406c2c7e91fd">&#9670;&#160;</a></span>powerups</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_powerup.html">Powerup</a> powerups[<a class="el" href="#a5b4072f66deed0b4ee1f710541cd75b5">MAX_POWERUPS</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23578889e80423fa7a46c533149a39ab" name="a23578889e80423fa7a46c533149a39ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23578889e80423fa7a46c533149a39ab">&#9670;&#160;</a></span>sparks_sprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* sparks_sprite = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="main_8c.html">main.c</a></li>
+    <li class="footer">Wygenerowano za pomocą <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>
